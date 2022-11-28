@@ -15,6 +15,7 @@ import {
     RemoveTodoListActionType
 } from "./actionTypes";
 import {TaskFilterType} from "../App";
+import {v1} from "uuid";
 
 // TodoLists
 
@@ -31,6 +32,7 @@ export const ADD_TODOLIST = (title: string): AddTodolistActionType => {
     return {
         type: ADD_TODOLIST_TYPE,
         data: {
+            id: v1(),
             title
         }
     }
@@ -80,13 +82,12 @@ export const ADD_TASK = (todoListId: string, taskName: string): AddTaskActionTyp
     }
 }
 
-export const CHANGE_TASK_STATUS = (todoListId: string, taskId: string, status: boolean): ChangeTaskStatusActionType => {
+export const CHANGE_TASK_STATUS = (todoListId: string, taskId: string): ChangeTaskStatusActionType => {
     return {
         type: CHANGE_TASK_STATUS_TYPE,
         data: {
             todoListId,
             taskId,
-            isDone: status,
         }
     }
 }

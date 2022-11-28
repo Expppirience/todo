@@ -18,7 +18,9 @@ export interface RemoveTodoListActionType {
 export interface AddTodolistActionType {
     type: typeof ADD_TODOLIST_TYPE,
     data: {
+        id: string;
         title: string
+
     }
 }
 
@@ -66,7 +68,6 @@ export interface ChangeTaskStatusActionType {
     data: {
         todoListId: string,
         taskId: string,
-        isDone: boolean;
     }
 }
 export interface ChangeTaskTitleActionType {

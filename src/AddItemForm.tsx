@@ -6,7 +6,7 @@ export interface AddItemFormPropsType {
     addItemCallback: (title: string) => void
 }
 
-export const AddItemForm: FC<AddItemFormPropsType> = ({addItemCallback}) => {
+export const AddItemForm: FC<AddItemFormPropsType> = React.memo(({addItemCallback}) => {
     const [newTaskTitle, setNewTaskTitle] = useState<string>('');
     const [isEmpty, setIsEmpty] = useState<boolean>(false);
 
@@ -49,4 +49,4 @@ export const AddItemForm: FC<AddItemFormPropsType> = ({addItemCallback}) => {
             </IconButton>
         </div>
     )
-}
+})

@@ -1,7 +1,7 @@
 // Types
 
 
-import {AllTasksType, TodoListsType} from "../App";
+import {AllTasksType} from "../App";
 import {v1} from "uuid";
 import {
     ADD_TASK_TYPE, ADD_TODOLIST_TYPE,
@@ -11,12 +11,11 @@ import {
     CHANGE_TASK_TITLE_TYPE,
     ChangeTaskStatusActionType,
     ChangeTaskTitleActionType,
-    ChangeTodoListFilterActionType,
-    ChangeTodolistTitleActionType,
     REMOVE_TASK_TYPE, REMOVE_TODOLIST_TYPE,
     RemoveTaskActionType,
     RemoveTodoListActionType
 } from "./actionTypes";
+import {todoListId1, todoListId2} from "./todoListsReducer";
 
 
 type ActionType =
@@ -29,9 +28,22 @@ type ActionType =
 
 // ==============================================================
 
+const initialState: AllTasksType = {
+    [todoListId1]: [
+        {id: v1(), title: "HTML&CSS", isDone: true},
+        {id: v1(), title: "JS", isDone: true},
+        {id: v1(), title: "ReactJS", isDone: false},
+    ],
+    [todoListId2]: [
+        {id: v1(), title: "Grooming", isDone: true},
+        {id: v1(), title: "Pet shop", isDone: false},
+        {id: v1(), title: "Nails", isDone: true},
+    ]
+}
 
-// Reducer
-export const tasksReducer = (state: AllTasksType, action: ActionType): AllTasksType => {
+
+// Reducer'
+export const tasksReducer = (state: AllTasksType = initialState, action: ActionType): AllTasksType => {
     switch (action.type) {
         case REMOVE_TODOLIST_TYPE:
             delete state[action.data.todoListId]
@@ -60,7 +72,7 @@ export const tasksReducer = (state: AllTasksType, action: ActionType): AllTasksT
                 [action.data.todoListId]:
                     state[action.data.todoListId].map((tl) => tl.id === action.data.taskId ? {
                         ...tl,
-                        isDone: action.data.isDone
+                        isDone: !tl.isDone
                     } : {...tl})
 
             }
@@ -74,8 +86,12 @@ export const tasksReducer = (state: AllTasksType, action: ActionType): AllTasksT
                     } : {...tl})
             }
         case ADD_TODOLIST_TYPE:
+            return {
+                ...state,
+                [action.data.id]: []
+            }
         default:
-            return {...state}
+            return state
     }
 }
 

@@ -28,7 +28,6 @@ test('correct task should be deleted from correct array', () => {
 test('task should be added to correct todoList', () => {
     const taskName = 'new task name'
     const finalState = tasksReducer(initialState, ADD_TASK('second', taskName))
-    console.log(finalState)
 
     expect(finalState['second'].length).toBe(4)
     expect(finalState['second'][0].id).toBeDefined()
@@ -40,7 +39,7 @@ test('task should be added to correct todoList', () => {
 
 test("specified task should change it's status", () => {
         const finalState =
-            tasksReducer(initialState, CHANGE_TASK_STATUS('second', '2', true))
+            tasksReducer(initialState, CHANGE_TASK_STATUS('second', '2'))
         expect(finalState['second'][1].isDone).toBe(true)
     }
 )
