@@ -70,20 +70,19 @@ export const tasksReducer = (state: AllTasksType = initialState, action: ActionT
          return {
             ...state,
             [action.data.todoListId]:
-               state[action.data.todoListId].map((tl) => tl.id === action.data.taskId ? {
-                  ...tl,
-                  isDone: !tl.isDone
-               } : {...tl})
-
+               state[action.data.todoListId].map((task) =>
+                  task.id === action.data.taskId
+                     ? {...task, isDone: !task.isDone}
+                     : {...task})
          }
       case CHANGE_TASK_TITLE_TYPE:
          return {
             ...state,
             [action.data.todoListId]:
-               state[action.data.todoListId].map((tl) => tl.id === action.data.taskId ? {
-                  ...tl,
-                  title: action.data.title
-               } : {...tl})
+               state[action.data.todoListId].map((task) =>
+                  task.id === action.data.taskId
+                     ? {...task, title: action.data.title}
+                     : {...task})
          }
       case ADD_TODOLIST_TYPE:
          return {

@@ -92,6 +92,7 @@ export const TodoList: FC<TodoListProps> = React.memo((
 
                return (
                   <Task
+                        key={task.id}
                         task={task}
                         todolistId={id}
                         removeTask={removeTask}
