@@ -13,19 +13,16 @@ export interface TaskPropsType {
 }
 
 
-export const Task: FC<TaskPropsType> = React.memo((
-   {task, removeTask, changeStatus, todolistId, changeTaskTitle}) => {
+export const Task: FC<TaskPropsType> = React.memo(({task, removeTask, changeStatus, todolistId, changeTaskTitle}) => {
    const editTaskText = (text: string) => {
       changeTaskTitle(text, task.id, todolistId)
    }
-   return (
-      <li key={task.id} className={task.isDone ? 'is-done' : ''}>
-         <Checkbox color={'success'} checked={task.isDone}
-                   onChange={() => changeStatus(task.id, todolistId)}/>
-         <EditableElement title={task.title} onChange={editTaskText}/>
-         <IconButton onClick={() => removeTask(task.id, todolistId)}>
-            <Delete/>
-         </IconButton>
-      </li>
-   )
+   return (<li key={task.id} className={task.isDone ? 'is-done' : ''}>
+      <Checkbox color={'success'} checked={task.isDone}
+                onChange={() => changeStatus(task.id, todolistId)}/>
+      <EditableElement title={task.title} onChange={editTaskText}/>
+      <IconButton onClick={() => removeTask(task.id, todolistId)}>
+         <Delete/>
+      </IconButton>
+   </li>)
 })

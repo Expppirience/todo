@@ -28,7 +28,6 @@ export const EditableElement: FC<EditableElementPropsType>
          const titleChangeHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => setTitle(e.target.value), [])
 
 
-         console.log('rendering editable element')
 
          // * Return
          return (

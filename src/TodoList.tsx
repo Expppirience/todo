@@ -1,24 +1,25 @@
-import React, {FC, useCallback, useMemo} from "react";
+import React, {FC, useCallback} from "react";
+
 import {TaskType} from "./types";
-import {TaskFilterType} from "./App";
+import {AllTasksType, TaskFilterType} from "./App";
+import {AppStateType} from "./state/store";
+
+import {ADD_TASK, CHANGE_TASK_STATUS, CHANGE_TASK_TITLE, REMOVE_TASK} from "./state/actionCreators";
+
 import {AddItemForm} from "./AddItemForm";
 import {EditableElement} from "./EditableElement";
-import {Button, Checkbox, IconButton} from "@mui/material";
+import {Button, IconButton} from "@mui/material";
 import {Delete} from "@mui/icons-material";
-import {useDispatch, useSelector} from "react-redux";
-import {AppStateType} from "./state/store";
-import {ADD_TASK, CHANGE_TASK_STATUS, CHANGE_TASK_TITLE, REMOVE_TASK} from "./state/actionCreators";
-import {AllTasksType} from "./AppWithRedux";
-import {Simulate} from "react-dom/test-utils";
-import input = Simulate.input;
 import {Task} from "./Task";
+
+import {useDispatch, useSelector} from "react-redux";
+import {tasksSelector} from "./selectors/tasksSelector";
 
 
 // ? Types
 interface TodoListProps {
    id: string;
    title: string;
-   number?: number;
    filter: TaskFilterType;
    changeFilter: (value: TaskFilterType, todoListId: string) => void;
    removeTodoList: (todoListId: string) => void;
@@ -39,12 +40,11 @@ export const TodoList: FC<TodoListProps> = React.memo((
 
    // ? Utils
 
-   const tasks = useSelector<AppStateType, TaskType[]>((state) => state.tasks[id])
+   const tasks = useSelector<AppStateType, AllTasksType>(tasksSelector)
    const dispatch = useDispatch()
 
 
    const filterTasks = (tasks: TaskType[], filter: TaskFilterType): TaskType[] => {
-      console.log('filtering')
       if (filter === 'all') return tasks
       return tasks.filter((task) => filter === 'active' ? !task.isDone : task.isDone)
    }
@@ -76,7 +76,6 @@ export const TodoList: FC<TodoListProps> = React.memo((
    const editTitleName = (title: string) => {
       changeTodoListName(title, id)
    }
-   console.log('rendering todolist')
    // ? Return
    return (
       <div>
@@ -88,16 +87,16 @@ export const TodoList: FC<TodoListProps> = React.memo((
          </h3>
          <AddItemForm addItemCallback={addItem}/>
          <ul>
-            {filterTasks(tasks, filter).map((task) => {
+            {filterTasks(tasks[id], filter).map((task) => {
 
                return (
                   <Task
-                        key={task.id}
-                        task={task}
-                        todolistId={id}
-                        removeTask={removeTask}
-                        changeStatus={changeStatus}
-                        changeTaskTitle={changeTaskTitle}/>
+                     key={task.id}
+                     task={task}
+                     todolistId={id}
+                     removeTask={removeTask}
+                     changeStatus={changeStatus}
+                     changeTaskTitle={changeTaskTitle}/>
                );
             })}
          </ul>
