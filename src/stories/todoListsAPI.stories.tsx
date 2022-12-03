@@ -90,7 +90,6 @@ export const DeleteTask = () => {
             setState(data)
          })
    }, []);
-
    return (<div>Current State: {JSON.stringify(state)}</div>)
 }
 
