@@ -22,8 +22,8 @@ export const GetTodoLists = () => {
 export const CreateTodoList = () => {
    const [state, setState] = useState<any>(null);
 
-   const payload = {title: 'title placeholder'}
    useEffect(() => {
+   const payload = { title: "title placeholder" };
       todoListsAPI.createTodoList(payload)
          .then((response) => {
             console.log('IN POST settings state', response)
@@ -44,14 +44,13 @@ export const DeleteTodoList = () => {
             setState(response.data)
          })
    }, [])
-
    return (<div>Current state: {JSON.stringify(state)}</div>)
 }
 
 export const UpdateTodoList = () => {
    const [state, setState] = useState<any>(null);
-   const payload = {title: "AGKJHGWHJKNWGABKJNLWGAKJLNB"}
    useEffect(() => {
+   const payload = { title: "AGKJHGWHJKNWGABKJNLWGAKJLNB" };
       todoListsAPI.updateTodoList("FWAFAWFAWFAW", payload)
          .then((response) => {
             console.log('IN PUT settings state', response)
@@ -95,10 +94,10 @@ export const DeleteTask = () => {
 
 export const CreateTask = () => {
    const [state, setState] = useState<any>(null);
-   const payload = {title: 'title placeholder'}
    const todoListID = 'abfdf18d-07c6-4139-9e3e-a2224eaade88'
 
    useEffect(() => {
+   const payload = { title: "title placeholder" };
       todoListsAPI.createTask(todoListID, payload)
          .then(({data}) => {
             console.log('IN CREATE TASKS', data)
@@ -111,10 +110,10 @@ export const CreateTask = () => {
 
 export const UpdateTask = () => {
    const [state, setState] = useState<any>(null);
-   const payload = {title: 'new title placeholder'}
    const todoListID = 'abfdf18d-07c6-4139-9e3e-a2224eaade88'
    const taskID = 'abfdf18d-07c6-4139-9e3e-a2224eaade88'
    useEffect(() => {
+   const payload = { title: "new title placeholder" };
       todoListsAPI.updateTask(todoListID, taskID, payload)
          .then(({data}) => {
             console.log('IN UPDATE TASKS', data)

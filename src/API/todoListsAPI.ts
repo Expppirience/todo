@@ -9,25 +9,41 @@ interface ITaskCreatePayload {
    title: string
 }
 
-interface ITaskPutPayload {
+export interface ITaskPutPayload {
    title: string,
    description: string,
    priority: number,
 
 }
 
-interface ITodoList {
+export interface ITodoList {
    id: string,
    title: string,
-   addedDate: Date,
+   addedDate: string,
    order: number
 }
 
-interface ITask {
+export enum TaskStatuses {
+  new = 0,
+  inProgress = 1,
+  completed = 2,
+  draft = 3,
+}
+
+export enum TaskPriorities {
+  low = 0,
+  middle = 1,
+  hi = 2,
+  urgently = 3,
+  later = 4,
+}
+
+
+export interface ITask {
    description: string,
    title: string,
-   status: number,
-   priority: number,
+   status: TaskStatuses,
+   priority: TaskPriorities,
    startDate: string,
    deadline: string,
    id: string,
