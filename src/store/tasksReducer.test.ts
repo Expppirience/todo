@@ -1,4 +1,3 @@
-import { AllTasksType } from "../App";
 import { tasksReducer } from "./tasksReducer";
 import {
   ADD_TASK,
@@ -8,6 +7,8 @@ import {
   REMOVE_TODOLIST,
 } from "./actionCreators";
 import { TaskPriorities, TaskStatuses } from "../API/todoListsAPI";
+import { AllTasksType } from "../AppWithRedux";
+import { ITaskDomain } from "../models/models";
 
 const initialState: AllTasksType = {
   first: [
@@ -97,7 +98,19 @@ test("correct task should be deleted from correct array", () => {
 
 test("task should be added to correct todoList", () => {
   const taskName = "new task name";
-  const finalState = tasksReducer(initialState, ADD_TASK("second", taskName));
+  const newTask: ITaskDomain = {
+    id: "99",
+    title: taskName,
+    status: TaskStatuses.new,
+    addedDate: "",
+    order: 0,
+    deadline: "",
+    todoListId: "second",
+    description: "",
+    priority: TaskPriorities.later,
+    startDate: "",
+  };
+  const finalState = tasksReducer(initialState, ADD_TASK(newTask));
 
   expect(finalState["second"].length).toBe(4);
   expect(finalState["second"][0].id).toBeDefined();
@@ -109,7 +122,7 @@ test("task should be added to correct todoList", () => {
 test("specified task should change it's status", () => {
   const finalState = tasksReducer(
     initialState,
-    CHANGE_TASK_STATUS("second", "2")
+    CHANGE_TASK_STATUS("second", "2", TaskStatuses.completed)
   );
   expect(finalState["second"][1].status).toBe(TaskStatuses.completed);
 });

@@ -1,6 +1,5 @@
 // Types
 
-import { AllTasksType } from "../App";
 import {
   ADD_TASK_TYPE,
   ADD_TODOLIST_TYPE,
@@ -14,9 +13,12 @@ import {
   REMOVE_TODOLIST_TYPE,
   RemoveTaskActionType,
   RemoveTodoListActionType,
+  SET_TASKS_TYPE,
+  SET_TODOLIST_TYPE,
+  SetTasksAT,
+  SetTodoListsAT,
 } from "./actionTypes";
-import { ITaskDomain } from "../models/models";
-import { TaskPriorities, TaskStatuses } from "../API/todoListsAPI";
+import { AllTasksType } from "../AppWithRedux";
 
 type ActionType =
   | RemoveTodoListActionType
@@ -24,7 +26,9 @@ type ActionType =
   | AddTaskActionType
   | ChangeTaskStatusActionType
   | ChangeTaskTitleActionType
-  | AddTodolistActionType;
+  | AddTodolistActionType
+  | SetTodoListsAT
+  | SetTasksAT;
 
 // ==============================================================
 
@@ -47,28 +51,19 @@ export const tasksReducer = (
         ),
       };
     case ADD_TASK_TYPE:
-      const newTask: ITaskDomain = {
-        id: (state[action.data.todoListId].length + 1).toString(),
-        title: action.data.title,
-        status: TaskStatuses.new,
-        addedDate: "",
-        order: 0,
-        deadline: "",
-        todoListId: action.data.todoListId,
-        description: "",
-        priority: TaskPriorities.later,
-        startDate: "",
-      };
       return {
         ...state,
-        [action.data.todoListId]: [newTask, ...state[action.data.todoListId]],
+        [action.data.item.todoListId]: [
+          action.data.item,
+          ...state[action.data.item.todoListId],
+        ],
       };
     case CHANGE_TASK_STATUS_TYPE:
       return {
         ...state,
         [action.data.todoListId]: state[action.data.todoListId].map((task) =>
           task.id === action.data.taskId
-            ? { ...task, status: TaskStatuses.inProgress } // ! Fix
+            ? { ...task, status: action.data.value } // ! Fix
             : { ...task }
         ),
       };
@@ -86,6 +81,14 @@ export const tasksReducer = (
         ...state,
         [action.data.id]: [],
       };
+    case SET_TODOLIST_TYPE:
+      const copyState = { ...state };
+      action.data.todoLists.forEach((tl) => {
+        copyState[tl.id] = [];
+      });
+      return copyState;
+    case SET_TASKS_TYPE:
+      return { ...state, [action.data.todoListID]: [...action.data.tasks] };
     default:
       return state;
   }

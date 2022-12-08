@@ -1,3 +1,3 @@
-import {AppStateType} from "../state/store";
+import { AppStateType } from "../store/store";
 
-export const tasksSelector = (state: AppStateType) => state.tasks
+export const tasksSelector = (state: AppStateType) => state.tasks;

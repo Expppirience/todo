@@ -1,10 +1,10 @@
 import { ComponentStory } from "@storybook/react";
 import AppWithRedux from "../../AppWithRedux";
 import { Provider } from "react-redux";
-import { AppStateType } from "../../state/store";
+import { AppStateType } from "../../store/store";
 import { combineReducers, createStore } from "redux";
-import { todoListsReducer } from "../../state/todoListsReducer";
-import { tasksReducer } from "../../state/tasksReducer";
+import { todoListsReducer } from "../../store/todoListsReducer";
+import { tasksReducer } from "../../store/tasksReducer";
 import { v1 } from "uuid";
 import { TaskPriorities, TaskStatuses } from "../../API/todoListsAPI";
 
@@ -15,8 +15,8 @@ const rootReducer = combineReducers({
 
 const initialGlobalState: AppStateType = {
   todoLists: [
-    { id: "1", title: "placeholder 1", filter: "all" },
-    { id: "2", title: "placeholder 2", filter: "all" },
+    { id: "1", title: "placeholder 1", filter: "all", addedDate: "", order: 1 },
+    { id: "2", title: "placeholder 2", filter: "all", addedDate: "", order: 2 },
   ],
   tasks: {
     ["1"]: [

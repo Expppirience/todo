@@ -1,8 +1,5 @@
 import { ITodoListDomain } from "./../models/models";
 // Types
-
-import { TodoListType } from "../App";
-import { v1 } from "uuid";
 import {
   ADD_TODOLIST_TYPE,
   AddTodolistActionType,
@@ -12,28 +9,25 @@ import {
   ChangeTodolistTitleActionType,
   REMOVE_TODOLIST_TYPE,
   RemoveTodoListActionType,
+  SET_TODOLIST_TYPE,
+  SetTodoListsAT,
 } from "./actionTypes";
-import { TodoListsType } from "../AppWithRedux";
 
 type ActionType =
   | RemoveTodoListActionType
   | AddTodolistActionType
   | ChangeTodolistTitleActionType
-  | ChangeTodoListFilterActionType;
+  | ChangeTodoListFilterActionType
+  | SetTodoListsAT;
 
 // ==============================================================
-
-export const todoListId1 = v1();
-export const todoListId2 = v1();
-
-const initialState: ITodoListDomain[] = [
-];
+const initialState: ITodoListDomain[] = [];
 
 // Reducer
 export const todoListsReducer = (
-  state: TodoListType[] = initialState,
+  state: ITodoListDomain[] = initialState,
   action: ActionType
-): TodoListType[] => {
+): ITodoListDomain[] => {
   switch (action.type) {
     case REMOVE_TODOLIST_TYPE:
       return state.filter((todoList) => todoList.id !== action.data.todoListId);
@@ -58,6 +52,8 @@ export const todoListsReducer = (
           ? { ...tl, filter: action.data.filter }
           : { ...tl }
       );
+    case SET_TODOLIST_TYPE:
+      return action.data.todoLists.map((tl) => ({ ...tl, filter: "all" }));
     default:
       return state;
   }

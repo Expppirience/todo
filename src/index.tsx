@@ -4,14 +4,14 @@ import "./index.css";
 // import App from "./App";
 // import AppWithReducer from "./AppWithReducer";
 import AppWithRedux from "./AppWithRedux";
-import {Provider} from "react-redux";
-import {store} from "./state/store";
+import { Provider } from "react-redux";
+import { store } from "./store/store";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
-    <Provider store={store}>
-        <AppWithRedux />
-    </Provider>
+  <Provider store={store}>
+    <AppWithRedux />
+  </Provider>
 );

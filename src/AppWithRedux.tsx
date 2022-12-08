@@ -1,28 +1,14 @@
-import React, { useCallback } from "react";
+import React, {useCallback, useEffect} from "react";
 import "./App.css";
-import { TodoList } from "./TodoList";
-import { ITaskDomain } from "./models/models";
-import { AddItemForm } from "./AddItemForm";
-import {
-  AppBar,
-  Button,
-  Container,
-  Grid,
-  IconButton,
-  Paper,
-  Toolbar,
-  Typography,
-} from "@mui/material";
-import { Menu } from "@mui/icons-material";
-import {
-  ADD_TODOLIST,
-  CHANGE_TODOLIST_FILTER,
-  CHANGE_TODOLIST_TITLE,
-  REMOVE_TODOLIST,
-} from "./state/actionCreators";
-import { AppStateType } from "./state/store";
-import { useDispatch, useSelector } from "react-redux";
-import { todoListsSelector } from "./selectors/todoListsSelector";
+import {TodoList} from "./TodoList";
+import {ITaskDomain} from "./models/models";
+import {AddItemForm} from "./AddItemForm";
+import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography,} from "@mui/material";
+import {Menu} from "@mui/icons-material";
+import {ADD_TODOLIST, CHANGE_TODOLIST_FILTER, CHANGE_TODOLIST_TITLE, REMOVE_TODOLIST,} from "./store/actionCreators";
+import {useAppDispatch, useAppSelector} from "./store/store";
+import {todoListsSelector} from "./selectors/todoListsSelector";
+import {getTodoListsTC} from "./store/todolistsThunks";
 
 // Types
 
@@ -42,9 +28,12 @@ export interface AllTasksType {
 
 // Component
 function AppWithReducer() {
-  const dispatch = useDispatch();
-  const todoLists =
-    useSelector<AppStateType, TodoListsType[]>(todoListsSelector);
+  const dispatch = useAppDispatch();
+  const todoLists = useAppSelector<TodoListsType[]>(todoListsSelector);
+
+  useEffect(() => {
+    dispatch(getTodoListsTC());
+  }, []);
 
   const removeTodoList = useCallback(
     (todoListId: string) => {
@@ -94,22 +83,23 @@ function AppWithReducer() {
           </div>
         </Grid>
         <Grid container spacing={4}>
-          {todoLists.map((todoList) => {
-            return (
-              <Grid item key={todoList.id}>
-                <Paper style={{ padding: "10px" }}>
-                  <TodoList
-                    id={todoList.id}
-                    title={todoList.title}
-                    changeFilter={changeFilter}
-                    filter={todoList.filter}
-                    removeTodoList={removeTodoList}
-                    changeTodoListName={changeTodoListName}
-                  />
-                </Paper>
-              </Grid>
-            );
-          })}
+          {todoLists &&
+            todoLists.map((todoList) => {
+              return (
+                <Grid item key={todoList.id}>
+                  <Paper style={{ padding: "10px" }}>
+                    <TodoList
+                      id={todoList.id}
+                      title={todoList.title}
+                      changeFilter={changeFilter}
+                      filter={todoList.filter}
+                      removeTodoList={removeTodoList}
+                      changeTodoListName={changeTodoListName}
+                    />
+                  </Paper>
+                </Grid>
+              );
+            })}
         </Grid>
       </Container>
     </div>
