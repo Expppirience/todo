@@ -57,7 +57,14 @@ test("correct todolist should be added", () => {
       filter: "all",
     },
   ];
-  const finalState = todoListsReducer(initialState, ADD_TODOLIST(title));
+  const newTodolist = {
+    id: "99",
+    title: title,
+    addedDate: "",
+    order: 1,
+    filter: "all",
+  };
+  const finalState = todoListsReducer(initialState, ADD_TODOLIST(newTodolist));
   expect(finalState.length).toBe(3);
   expect(finalState[0].title).toBe(title);
   expect(finalState[0].filter).toBe("all");

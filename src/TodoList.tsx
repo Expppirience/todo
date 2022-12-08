@@ -16,7 +16,7 @@ import { tasksSelector } from "./selectors/tasksSelector";
 import { TaskStatuses } from "./API/todoListsAPI";
 import {
   addTaskTC,
-  changeTaskStatusTC,
+  updateTaskTC,
   getTasksTC,
   removeTaskTC,
 } from "./store/todolistsThunks";
@@ -70,14 +70,14 @@ export const TodoList: FC<TodoListProps> = React.memo(
 
     const changeStatus = useCallback(
       (id: string, todoListId: string, value: TaskStatuses) => {
-        dispatch(changeTaskStatusTC(todoListId, id, value));
+        dispatch(updateTaskTC(todoListId, id, { status: value }));
       },
       [dispatch]
     );
 
     const changeTaskTitle = useCallback(
       (title: string, taskId: string, todoListId: string) => {
-        dispatch(CHANGE_TASK_TITLE(todoListId, taskId, title));
+        dispatch(updateTaskTC(todoListId, taskId, { title }));
       },
       [dispatch]
     );

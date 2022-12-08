@@ -1,5 +1,6 @@
-import {ITask, ITodoList, TaskStatuses} from "../API/todoListsAPI";
-import {TaskFilterType} from "../AppWithRedux";
+import { ITask, ITodoList, TaskStatuses } from "../API/todoListsAPI";
+import { TaskFilterType } from "../AppWithRedux";
+import { IUpdateDomainTask } from "./todolistsThunks";
 
 // TodoLists
 
@@ -35,8 +36,7 @@ export interface RemoveTodoListActionType {
 export interface AddTodolistActionType {
   type: typeof ADD_TODOLIST_TYPE;
   data: {
-    id: string;
-    title: string;
+    todolist: ITodoList;
   };
 }
 
@@ -62,12 +62,22 @@ export const REMOVE_TASK_TYPE = "REMOVE_TASK";
 export const ADD_TASK_TYPE = "ADD_TASK";
 export const CHANGE_TASK_STATUS_TYPE = "CHANGE_TASK_STATUS";
 export const CHANGE_TASK_TITLE_TYPE = "CHANGE_TASK_TITLE_TYPE";
+export const UPDATE_TASK_TYPE = "UPDATE_TASK";
 
 export interface RemoveTaskActionType {
   type: typeof REMOVE_TASK_TYPE;
   data: {
     todoListId: string;
     taskId: string;
+  };
+}
+
+export interface UpdateTaskAT {
+  type: typeof UPDATE_TASK_TYPE;
+  data: {
+    todoListID: string;
+    taskID: string;
+    modelChanges: IUpdateDomainTask;
   };
 }
 

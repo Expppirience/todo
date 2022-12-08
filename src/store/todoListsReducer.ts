@@ -32,14 +32,7 @@ export const todoListsReducer = (
     case REMOVE_TODOLIST_TYPE:
       return state.filter((todoList) => todoList.id !== action.data.todoListId);
     case ADD_TODOLIST_TYPE:
-      const newTodoList: ITodoListDomain = {
-        id: action.data.id,
-        title: action.data.title,
-        filter: "all",
-        addedDate: "",
-        order: 0,
-      };
-      return [newTodoList, ...state];
+      return [{ ...action.data.todolist, filter: "all" }, ...state];
     case CHANGE_TODOLIST_TITLE_TYPE:
       return state.map((tl) =>
         tl.id === action.data.id

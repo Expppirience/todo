@@ -19,14 +19,16 @@ import {
   SET_TODOLIST_TYPE,
   SetTasksAT,
   SetTodoListsAT,
+  UPDATE_TASK_TYPE,
+  UpdateTaskAT,
 } from "./actionTypes";
-import {v1} from "uuid";
-import {ITask, ITodoList, TaskStatuses} from "../API/todoListsAPI";
-import {TaskFilterType} from "../AppWithRedux";
+import { ITask, ITodoList, TaskStatuses } from "../API/todoListsAPI";
+import { TaskFilterType } from "../AppWithRedux";
+import { IUpdateDomainTask } from "./todolistsThunks";
 // TodoLists
 
 export const REMOVE_TODOLIST = (
-   todoListId: string
+  todoListId: string
 ): RemoveTodoListActionType => {
   return {
     type: REMOVE_TODOLIST_TYPE,
@@ -36,19 +38,18 @@ export const REMOVE_TODOLIST = (
   };
 };
 
-export const ADD_TODOLIST = (title: string): AddTodolistActionType => {
+export const ADD_TODOLIST = (todolist: ITodoList): AddTodolistActionType => {
   return {
     type: ADD_TODOLIST_TYPE,
     data: {
-      id: v1(),
-      title,
+      todolist,
     },
   };
 };
 
 export const CHANGE_TODOLIST_TITLE = (
-   todoListId: string,
-   title: string
+  todoListId: string,
+  title: string
 ): ChangeTodolistTitleActionType => {
   return {
     type: CHANGE_TODOLIST_TITLE_TYPE,
@@ -60,8 +61,8 @@ export const CHANGE_TODOLIST_TITLE = (
 };
 
 export const CHANGE_TODOLIST_FILTER = (
-   todoListId: string,
-   filter: TaskFilterType
+  todoListId: string,
+  filter: TaskFilterType
 ): ChangeTodoListFilterActionType => {
   return {
     type: CHANGE_TODOLIST_FILTER_TYPE,
@@ -75,8 +76,8 @@ export const CHANGE_TODOLIST_FILTER = (
 // Tasks
 
 export const REMOVE_TASK = (
-   todoListId: string,
-   taskId: string
+  todoListId: string,
+  taskId: string
 ): RemoveTaskActionType => {
   return {
     type: REMOVE_TASK_TYPE,
@@ -96,9 +97,9 @@ export const ADD_TASK = (item: ITask): AddTaskActionType => {
 };
 
 export const CHANGE_TASK_STATUS = (
-   todoListId: string,
-   taskId: string,
-   value: TaskStatuses
+  todoListId: string,
+  taskId: string,
+  value: TaskStatuses
 ): ChangeTaskStatusActionType => {
   return {
     type: CHANGE_TASK_STATUS_TYPE,
@@ -111,9 +112,9 @@ export const CHANGE_TASK_STATUS = (
 };
 
 export const CHANGE_TASK_TITLE = (
-   todoListId: string,
-   taskId: string,
-   title: string
+  todoListId: string,
+  taskId: string,
+  title: string
 ): ChangeTaskTitleActionType => {
   return {
     type: CHANGE_TASK_TITLE_TYPE,
@@ -140,6 +141,21 @@ export const SET_TASKS = (todoListID: string, tasks: ITask[]): SetTasksAT => {
     data: {
       todoListID,
       tasks,
+    },
+  };
+};
+
+export const UPDATE_TASK = (
+  todoListID: string,
+  taskID: string,
+  modelChanges: IUpdateDomainTask
+): UpdateTaskAT => {
+  return {
+    type: UPDATE_TASK_TYPE,
+    data: {
+      todoListID,
+      taskID,
+      modelChanges,
     },
   };
 };

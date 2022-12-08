@@ -5,8 +5,6 @@ import {
   ADD_TODOLIST_TYPE,
   AddTaskActionType,
   AddTodolistActionType,
-  CHANGE_TASK_STATUS_TYPE,
-  CHANGE_TASK_TITLE_TYPE,
   ChangeTaskStatusActionType,
   ChangeTaskTitleActionType,
   REMOVE_TASK_TYPE,
@@ -19,6 +17,8 @@ import {
   SetTodoListsAT,
 } from "./actionTypes";
 import { AllTasksType } from "../AppWithRedux";
+import { UpdateTaskAT } from "./actionTypes";
+import { UPDATE_TASK_TYPE } from "./actionTypes";
 
 type ActionType =
   | RemoveTodoListActionType
@@ -28,8 +28,8 @@ type ActionType =
   | ChangeTaskTitleActionType
   | AddTodolistActionType
   | SetTodoListsAT
-  | SetTasksAT;
-
+  | SetTasksAT
+  | UpdateTaskAT;
 // ==============================================================
 
 const initialState: AllTasksType = {};
@@ -58,28 +58,10 @@ export const tasksReducer = (
           ...state[action.data.item.todoListId],
         ],
       };
-    case CHANGE_TASK_STATUS_TYPE:
-      return {
-        ...state,
-        [action.data.todoListId]: state[action.data.todoListId].map((task) =>
-          task.id === action.data.taskId
-            ? { ...task, status: action.data.value }
-            : { ...task }
-        ),
-      };
-    case CHANGE_TASK_TITLE_TYPE:
-      return {
-        ...state,
-        [action.data.todoListId]: state[action.data.todoListId].map((task) =>
-          task.id === action.data.taskId
-            ? { ...task, title: action.data.title }
-            : { ...task }
-        ),
-      };
     case ADD_TODOLIST_TYPE:
       return {
         ...state,
-        [action.data.id]: [],
+        [action.data.todolist.id]: [],
       };
     case SET_TODOLIST_TYPE:
       const copyState = { ...state };
@@ -87,6 +69,16 @@ export const tasksReducer = (
       return copyState;
     case SET_TASKS_TYPE:
       return { ...state, [action.data.todoListID]: [...action.data.tasks] };
+    case UPDATE_TASK_TYPE:
+      const currentTasks = state[action.data.todoListID];
+      return {
+        ...state,
+        [action.data.todoListID]: currentTasks.map((task) => {
+          return task.id === action.data.taskID
+            ? { ...task, ...action.data.modelChanges }
+            : { ...task };
+        }),
+      };
     default:
       return state;
   }

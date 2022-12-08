@@ -15,14 +15,17 @@ import {
 } from "@mui/material";
 import { Menu } from "@mui/icons-material";
 import {
-  ADD_TODOLIST,
   CHANGE_TODOLIST_FILTER,
   CHANGE_TODOLIST_TITLE,
-  REMOVE_TODOLIST,
 } from "./store/actionCreators";
 import { useAppDispatch, useAppSelector } from "./store/store";
 import { todoListsSelector } from "./selectors/todoListsSelector";
-import { getTodoListsTC, removeTodolistTC } from "./store/todolistsThunks";
+import {
+  addTodolistTC,
+  changeTodolistTitleTC,
+  getTodoListsTC,
+  removeTodolistTC,
+} from "./store/todolistsThunks";
 
 // Types
 
@@ -65,14 +68,14 @@ function AppWithRedux() {
 
   const addTodoListItem = useCallback(
     (title: string) => {
-      dispatch(ADD_TODOLIST(title));
+      dispatch(addTodolistTC(title));
     },
     [dispatch]
   );
 
-  const changeTodoListName = useCallback(
+  const changeTodoListTitle = useCallback(
     (title: string, todoListId: string) => {
-      dispatch(CHANGE_TODOLIST_TITLE(todoListId, title));
+      dispatch(changeTodolistTitleTC(todoListId, title));
     },
     [dispatch]
   );
@@ -108,7 +111,7 @@ function AppWithRedux() {
                       changeFilter={changeFilter}
                       filter={todoList.filter}
                       removeTodoList={removeTodoList}
-                      changeTodoListName={changeTodoListName}
+                      changeTodoListName={changeTodoListTitle}
                     />
                   </Paper>
                 </Grid>

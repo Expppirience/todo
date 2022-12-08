@@ -1,14 +1,36 @@
 import { Dispatch } from "redux";
-import { TaskStatuses, todoListsAPI } from "../API/todoListsAPI";
+import {
+  TaskPriorities,
+  TaskStatuses,
+  todoListsAPI,
+} from "../API/todoListsAPI";
 import {
   ADD_TASK,
+  ADD_TODOLIST,
   CHANGE_TASK_STATUS,
+  CHANGE_TODOLIST_TITLE,
   REMOVE_TASK,
   REMOVE_TODOLIST,
   SET_TASKS,
   SET_TODOLISTS,
+  UPDATE_TASK,
 } from "./actionCreators";
 import { AppStateType } from "./store";
+
+// * Types
+
+export interface IUpdateDomainTask {
+  description?: string;
+  title?: string;
+  status?: TaskStatuses;
+  priority?: TaskPriorities;
+  startDate?: string;
+  deadline?: string;
+  id?: string;
+  todoListId?: string;
+  order?: number;
+  addedDate?: string;
+}
 
 export const getTodoListsTC = () => {
   return (dispatch: Dispatch) => {
@@ -48,20 +70,20 @@ export const addTaskTC = (todoListID: string, title: string) => {
   };
 };
 
-export const changeTaskStatusTC = (
+export const updateTaskTC = (
   todoListID: string,
   taskID: string,
-  status: TaskStatuses
+  changesModel: IUpdateDomainTask
 ) => {
   return (dispatch: Dispatch, getState: () => AppStateType) => {
     const task = getState().tasks[todoListID].find(
       (task) => task.id === taskID
     );
     if (task) {
-      const payload = { ...task, status };
+      const payload = { ...task, ...changesModel };
       todoListsAPI.updateTask(todoListID, taskID, payload).then(({ data }) => {
         if (data.resultCode === 0) {
-          dispatch(CHANGE_TASK_STATUS(todoListID, taskID, status));
+          dispatch(UPDATE_TASK(todoListID, taskID, changesModel));
         }
       });
     }
@@ -74,6 +96,28 @@ export const removeTodolistTC = (todoListID: string) => {
       if (data.resultCode === 0) {
         dispatch(REMOVE_TODOLIST(todoListID));
       }
+    });
+  };
+};
+
+export const addTodolistTC = (title: string) => {
+  return (dispatch: Dispatch) => {
+    const payload = { title };
+    todoListsAPI.createTodoList(payload).then(({ data }) => {
+      if (data.resultCode === 0) {
+        const todoList = data.data.item;
+        dispatch(ADD_TODOLIST(todoList));
+      }
+    });
+  };
+};
+
+export const changeTodolistTitleTC = (todoListID: string, title: string) => {
+  return (dispatch: Dispatch) => {
+    const payload = { title };
+    todoListsAPI.updateTodoList(todoListID, payload).then(({ data }) => {
+      if (data.resultCode === 0)
+        dispatch(CHANGE_TODOLIST_TITLE(todoListID, title));
     });
   };
 };
