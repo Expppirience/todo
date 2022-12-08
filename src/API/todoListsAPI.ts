@@ -1,4 +1,4 @@
-import {baseRequests} from "./index";
+import { baseRequests } from "./index";
 
 // Types
 interface ITodoListPayload {
@@ -26,8 +26,7 @@ export interface ITodoList {
 }
 
 export enum TaskStatuses {
-  new = 0,
-  inProgress = 1,
+  inProgress = 0,
   completed = 2,
   draft = 3,
 }

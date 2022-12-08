@@ -1,22 +1,26 @@
-import React, {FC, useCallback, useEffect} from "react";
+import React, { FC, useCallback, useEffect } from "react";
 
-import {ITaskDomain} from "./models/models";
-// import {AllTasksType, TaskFilterType} from "./App";
-import {AppStateType, useAppDispatch} from "./store/store";
+import { ITaskDomain } from "./models/models";
+import { AppStateType, useAppDispatch } from "./store/store";
 
-import {CHANGE_TASK_TITLE} from "./store/actionCreators";
+import { CHANGE_TASK_TITLE } from "./store/actionCreators";
 
-import {AddItemForm} from "./AddItemForm";
-import {EditableElement} from "./EditableElement";
-import {Button, IconButton} from "@mui/material";
-import {Delete} from "@mui/icons-material";
-import {Task} from "./Task";
+import { AddItemForm } from "./AddItemForm";
+import { EditableElement } from "./EditableElement";
+import { Button, IconButton } from "@mui/material";
+import { Delete } from "@mui/icons-material";
+import { Task } from "./Task";
 
-import {useSelector} from "react-redux";
-import {tasksSelector} from "./selectors/tasksSelector";
-import {TaskStatuses} from "./API/todoListsAPI";
-import {addTaskTC, changeTaskStatusTC, getTasksTC, removeTaskTC,} from "./store/todolistsThunks";
-import {AllTasksType, TaskFilterType} from "./AppWithRedux";
+import { useSelector } from "react-redux";
+import { tasksSelector } from "./selectors/tasksSelector";
+import { TaskStatuses } from "./API/todoListsAPI";
+import {
+  addTaskTC,
+  changeTaskStatusTC,
+  getTasksTC,
+  removeTaskTC,
+} from "./store/todolistsThunks";
+import { AllTasksType, TaskFilterType } from "./AppWithRedux";
 
 // ? Types
 interface TodoListProps {
@@ -92,6 +96,7 @@ export const TodoList: FC<TodoListProps> = React.memo(
     const editTitleName = (title: string) => {
       changeTodoListName(title, id);
     };
+    console.log("rendered todolist");
     // ? Return
     return (
       <div>

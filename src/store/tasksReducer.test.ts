@@ -5,6 +5,7 @@ import {
   CHANGE_TASK_TITLE,
   REMOVE_TASK,
   REMOVE_TODOLIST,
+  SET_TASKS,
 } from "./actionCreators";
 import { TaskPriorities, TaskStatuses } from "../API/todoListsAPI";
 import { AllTasksType } from "../AppWithRedux";
@@ -101,7 +102,7 @@ test("task should be added to correct todoList", () => {
   const newTask: ITaskDomain = {
     id: "99",
     title: taskName,
-    status: TaskStatuses.new,
+    status: TaskStatuses.inProgress,
     addedDate: "",
     order: 0,
     deadline: "",
@@ -115,7 +116,7 @@ test("task should be added to correct todoList", () => {
   expect(finalState["second"].length).toBe(4);
   expect(finalState["second"][0].id).toBeDefined();
   expect(finalState["second"][0].title).toBe(taskName);
-  expect(finalState["second"][0].status).toBe(TaskStatuses.new);
+  expect(finalState["second"][0].status).toBe(TaskStatuses.inProgress);
   expect(finalState["first"].length).toBe(3);
 });
 
@@ -141,4 +142,23 @@ test("property with todoListId should be deleted", () => {
   const finalState = tasksReducer(initialState, REMOVE_TODOLIST("second"));
   expect(Object.keys(finalState).length).toBe(1);
   expect(finalState["second"]).toBeUndefined();
+});
+
+test("task should be added for specified todolist", () => {
+  const tasks = [
+    {
+      id: "4",
+      title: "What to think",
+      priority: TaskPriorities.hi,
+      order: 0,
+      startDate: "",
+      addedDate: "",
+      todoListId: "first",
+      description: "",
+      status: TaskStatuses.inProgress,
+      deadline: "",
+    },
+  ];
+  const finalState = tasksReducer(initialState, SET_TASKS("first", tasks));
+  expect(finalState["first"].length).toBe(4);
 });

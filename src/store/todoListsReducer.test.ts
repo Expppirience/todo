@@ -90,6 +90,6 @@ test("correct todolist should change its own name", () => {
     CHANGE_TODOLIST_TITLE(todoListId2, title)
   );
 
-  expect(finalState[0].title).toBe("What to learn");
+  expect(finalState[0].title).toBe("first");
   expect(finalState[1].title).toBe(title);
 });

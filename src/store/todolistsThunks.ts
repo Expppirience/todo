@@ -4,6 +4,7 @@ import {
   ADD_TASK,
   CHANGE_TASK_STATUS,
   REMOVE_TASK,
+  REMOVE_TODOLIST,
   SET_TASKS,
   SET_TODOLISTS,
 } from "./actionCreators";
@@ -40,7 +41,8 @@ export const addTaskTC = (todoListID: string, title: string) => {
     const payload = { title };
     todoListsAPI.createTask(todoListID, payload).then(({ data }) => {
       if (data.resultCode === 0) {
-        dispatch(ADD_TASK(data.data.item));
+        const task = data.data.item;
+        dispatch(ADD_TASK(task));
       }
     });
   };
@@ -58,8 +60,20 @@ export const changeTaskStatusTC = (
     if (task) {
       const payload = { ...task, status };
       todoListsAPI.updateTask(todoListID, taskID, payload).then(({ data }) => {
-        dispatch(CHANGE_TASK_STATUS(todoListID, taskID, status));
+        if (data.resultCode === 0) {
+          dispatch(CHANGE_TASK_STATUS(todoListID, taskID, status));
+        }
       });
     }
+  };
+};
+
+export const removeTodolistTC = (todoListID: string) => {
+  return (dispatch: Dispatch) => {
+    todoListsAPI.deleteTodoList(todoListID).then(({ data }) => {
+      if (data.resultCode === 0) {
+        dispatch(REMOVE_TODOLIST(todoListID));
+      }
+    });
   };
 };

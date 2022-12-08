@@ -63,7 +63,7 @@ export const tasksReducer = (
         ...state,
         [action.data.todoListId]: state[action.data.todoListId].map((task) =>
           task.id === action.data.taskId
-            ? { ...task, status: action.data.value } // ! Fix
+            ? { ...task, status: action.data.value }
             : { ...task }
         ),
       };
@@ -83,9 +83,7 @@ export const tasksReducer = (
       };
     case SET_TODOLIST_TYPE:
       const copyState = { ...state };
-      action.data.todoLists.forEach((tl) => {
-        copyState[tl.id] = [];
-      });
+      action.data.todoLists.forEach((tl) => (copyState[tl.id] = []));
       return copyState;
     case SET_TASKS_TYPE:
       return { ...state, [action.data.todoListID]: [...action.data.tasks] };

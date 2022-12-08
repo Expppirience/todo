@@ -1,14 +1,28 @@
-import React, {useCallback, useEffect} from "react";
+import React, { useCallback, useEffect } from "react";
 import "./App.css";
-import {TodoList} from "./TodoList";
-import {ITaskDomain} from "./models/models";
-import {AddItemForm} from "./AddItemForm";
-import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography,} from "@mui/material";
-import {Menu} from "@mui/icons-material";
-import {ADD_TODOLIST, CHANGE_TODOLIST_FILTER, CHANGE_TODOLIST_TITLE, REMOVE_TODOLIST,} from "./store/actionCreators";
-import {useAppDispatch, useAppSelector} from "./store/store";
-import {todoListsSelector} from "./selectors/todoListsSelector";
-import {getTodoListsTC} from "./store/todolistsThunks";
+import { TodoList } from "./TodoList";
+import { ITaskDomain } from "./models/models";
+import { AddItemForm } from "./AddItemForm";
+import {
+  AppBar,
+  Button,
+  Container,
+  Grid,
+  IconButton,
+  Paper,
+  Toolbar,
+  Typography,
+} from "@mui/material";
+import { Menu } from "@mui/icons-material";
+import {
+  ADD_TODOLIST,
+  CHANGE_TODOLIST_FILTER,
+  CHANGE_TODOLIST_TITLE,
+  REMOVE_TODOLIST,
+} from "./store/actionCreators";
+import { useAppDispatch, useAppSelector } from "./store/store";
+import { todoListsSelector } from "./selectors/todoListsSelector";
+import { getTodoListsTC, removeTodolistTC } from "./store/todolistsThunks";
 
 // Types
 
@@ -27,7 +41,7 @@ export interface AllTasksType {
 // ? Data
 
 // Component
-function AppWithReducer() {
+function AppWithRedux() {
   const dispatch = useAppDispatch();
   const todoLists = useAppSelector<TodoListsType[]>(todoListsSelector);
 
@@ -37,7 +51,7 @@ function AppWithReducer() {
 
   const removeTodoList = useCallback(
     (todoListId: string) => {
-      dispatch(REMOVE_TODOLIST(todoListId));
+      dispatch(removeTodolistTC(todoListId));
     },
     [dispatch]
   );
@@ -106,4 +120,4 @@ function AppWithReducer() {
   );
 }
 
-export default AppWithReducer;
+export default AppWithRedux;
