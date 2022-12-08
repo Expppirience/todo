@@ -1,26 +1,24 @@
 import React, { FC, useCallback, useEffect } from "react";
 
-import { ITaskDomain } from "./models/models";
-import { AppStateType, useAppDispatch } from "./store/store";
+import { ITaskDomain } from "../../models/models";
+import { AppStateType, useAppDispatch } from "../../store/store";
 
-import { CHANGE_TASK_TITLE } from "./store/actionCreators";
-
-import { AddItemForm } from "./AddItemForm";
-import { EditableElement } from "./EditableElement";
+import { AddItemForm } from "../AddItemForm/AddItemForm";
+import { EditableElement } from "../EditableElement/EditableElement";
 import { Button, IconButton } from "@mui/material";
 import { Delete } from "@mui/icons-material";
-import { Task } from "./Task";
+import { Task } from "../Task/Task";
 
 import { useSelector } from "react-redux";
-import { tasksSelector } from "./selectors/tasksSelector";
-import { TaskStatuses } from "./API/todoListsAPI";
+import { tasksSelector } from "../../selectors/tasksSelector";
+import { TaskStatuses } from "../../API/todoListsAPI";
 import {
   addTaskTC,
-  updateTaskTC,
   getTasksTC,
   removeTaskTC,
-} from "./store/todolistsThunks";
-import { AllTasksType, TaskFilterType } from "./AppWithRedux";
+  updateTaskTC,
+} from "../../store/thunks/todolistsThunks";
+import { AllTasksType, TaskFilterType } from "../../AppWithRedux";
 
 // ? Types
 interface TodoListProps {

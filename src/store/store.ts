@@ -4,8 +4,8 @@ import {
   combineReducers,
   createStore,
 } from "redux";
-import { tasksReducer } from "./tasksReducer";
-import { todoListsReducer } from "./todoListsReducer";
+import { tasksReducer } from "./reducers/tasksReducer";
+import { todoListsReducer } from "./reducers/todoListsReducer";
 import thunkMiddleware, { ThunkDispatch } from "redux-thunk";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 

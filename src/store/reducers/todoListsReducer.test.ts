@@ -2,11 +2,11 @@ import { v1 } from "uuid";
 
 import { todoListsReducer } from "./todoListsReducer";
 import {
-  ADD_TODOLIST,
-  CHANGE_TODOLIST_TITLE,
-  REMOVE_TODOLIST,
-} from "./actionCreators";
-import { ITodoListDomain } from "../models/models";
+  addTodolistAC,
+  changeTodolistTitleAC,
+  removeTodolistAC,
+} from "../actionCreators";
+import { ITodoListDomain } from "../../models/models";
 
 test("correct todolist should be removed", () => {
   const todoListId1 = v1();
@@ -30,7 +30,7 @@ test("correct todolist should be removed", () => {
   ];
   const finalState = todoListsReducer(
     initialState,
-    REMOVE_TODOLIST(todoListId1)
+    removeTodolistAC(todoListId1)
   );
   expect(finalState.length).toBe(1);
   expect(finalState[0].id).toBe(todoListId2);
@@ -64,7 +64,7 @@ test("correct todolist should be added", () => {
     order: 1,
     filter: "all",
   };
-  const finalState = todoListsReducer(initialState, ADD_TODOLIST(newTodolist));
+  const finalState = todoListsReducer(initialState, addTodolistAC(newTodolist));
   expect(finalState.length).toBe(3);
   expect(finalState[0].title).toBe(title);
   expect(finalState[0].filter).toBe("all");
@@ -94,7 +94,7 @@ test("correct todolist should change its own name", () => {
 
   const finalState = todoListsReducer(
     initialState,
-    CHANGE_TODOLIST_TITLE(todoListId2, title)
+    changeTodolistTitleAC(todoListId2, title)
   );
 
   expect(finalState[0].title).toBe("first");

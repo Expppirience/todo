@@ -1,69 +1,5 @@
 import { baseRequests } from "./index";
 
-// Types
-interface ITodoListPayload {
-  title: string;
-}
-
-interface ITaskCreatePayload {
-  title: string;
-}
-
-export interface ITaskPutPayload {
-  title: string;
-  description: string;
-  priority: number;
-  deadline: string | null;
-  startDate: string | null;
-  status: TaskStatuses;
-}
-
-export interface ITodoList {
-  id: string;
-  title: string;
-  addedDate: string;
-  order: number;
-}
-
-export enum TaskStatuses {
-  inProgress = 0,
-  completed = 2,
-  draft = 3,
-}
-
-export enum TaskPriorities {
-  low = 0,
-  middle = 1,
-  hi = 2,
-  urgently = 3,
-  later = 4,
-}
-
-export interface ITask {
-  description: string;
-  title: string;
-  status: TaskStatuses;
-  priority: TaskPriorities;
-  startDate: string;
-  deadline: string;
-  id: string;
-  todoListId: string;
-  order: number;
-  addedDate: string;
-}
-
-interface IResponse<D = {}> {
-  resultCode: number;
-  messages: string[];
-  data: D;
-}
-
-interface ITasksResponse {
-  items: ITask[];
-  totalCount: number;
-  error: null | string;
-}
-
 // Methods
 
 // TodoLists
@@ -127,3 +63,67 @@ export const todoListsAPI = {
   createTask,
   updateTask,
 };
+
+// Types
+interface ITodoListPayload {
+  title: string;
+}
+
+interface ITaskCreatePayload {
+  title: string;
+}
+
+export interface ITaskPutPayload {
+  title: string;
+  description: string;
+  priority: number;
+  deadline: string | null;
+  startDate: string | null;
+  status: TaskStatuses;
+}
+
+export interface ITodoList {
+  id: string;
+  title: string;
+  addedDate: string;
+  order: number;
+}
+
+export enum TaskStatuses {
+  inProgress = 0,
+  completed = 2,
+  draft = 3,
+}
+
+export enum TaskPriorities {
+  low = 0,
+  middle = 1,
+  hi = 2,
+  urgently = 3,
+  later = 4,
+}
+
+export interface ITask {
+  description: string;
+  title: string;
+  status: TaskStatuses;
+  priority: TaskPriorities;
+  startDate: string;
+  deadline: string;
+  id: string;
+  todoListId: string;
+  order: number;
+  addedDate: string;
+}
+
+interface IResponse<D = {}> {
+  resultCode: number;
+  messages: string[];
+  data: D;
+}
+
+interface ITasksResponse {
+  items: ITask[];
+  totalCount: number;
+  error: null | string;
+}

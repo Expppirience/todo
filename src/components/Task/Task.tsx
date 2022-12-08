@@ -1,9 +1,9 @@
 import React, { FC } from "react";
 import { Checkbox, IconButton } from "@mui/material";
-import { EditableElement } from "./EditableElement";
+import { EditableElement } from "../EditableElement/EditableElement";
 import { Delete } from "@mui/icons-material";
-import { ITaskDomain } from "./models/models";
-import { TaskStatuses } from "./API/todoListsAPI";
+import { ITaskDomain } from "../../models/models";
+import { TaskStatuses } from "../../API/todoListsAPI";
 
 export interface TaskPropsType {
   task: ITaskDomain;

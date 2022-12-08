@@ -1,5 +1,5 @@
 import React from "react";
-import { Task } from "../Task";
+import { Task } from "../components/Task/Task";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { ITaskDomain } from "../models/models";
 import { action } from "@storybook/addon-actions";

@@ -1,23 +1,23 @@
-import { ITodoListDomain } from "./../models/models";
+import { ITodoListDomain } from "../../models/models";
 // Types
 import {
   ADD_TODOLIST_TYPE,
-  AddTodolistActionType,
+  AddTodolistAT,
   CHANGE_TODOLIST_FILTER_TYPE,
   CHANGE_TODOLIST_TITLE_TYPE,
-  ChangeTodoListFilterActionType,
-  ChangeTodolistTitleActionType,
+  ChangeTodoListFilterAT,
+  ChangeTodolistTitleAT,
   REMOVE_TODOLIST_TYPE,
-  RemoveTodoListActionType,
+  RemoveTodoListAT,
   SET_TODOLIST_TYPE,
   SetTodoListsAT,
-} from "./actionTypes";
+} from "../actionTypes";
 
-type ActionType =
-  | RemoveTodoListActionType
-  | AddTodolistActionType
-  | ChangeTodolistTitleActionType
-  | ChangeTodoListFilterActionType
+export type TodoListsAT =
+  | RemoveTodoListAT
+  | AddTodolistAT
+  | ChangeTodolistTitleAT
+  | ChangeTodoListFilterAT
   | SetTodoListsAT;
 
 // ==============================================================
@@ -26,7 +26,7 @@ const initialState: ITodoListDomain[] = [];
 // Reducer
 export const todoListsReducer = (
   state: ITodoListDomain[] = initialState,
-  action: ActionType
+  action: TodoListsAT
 ): ITodoListDomain[] => {
   switch (action.type) {
     case REMOVE_TODOLIST_TYPE:

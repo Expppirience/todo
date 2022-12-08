@@ -3,8 +3,8 @@ import AppWithRedux from "../../AppWithRedux";
 import { Provider } from "react-redux";
 import { AppStateType } from "../../store/store";
 import { combineReducers, createStore } from "redux";
-import { todoListsReducer } from "../../store/todoListsReducer";
-import { tasksReducer } from "../../store/tasksReducer";
+import { todoListsReducer } from "../../store/reducers/todoListsReducer";
+import { tasksReducer } from "../../store/reducers/tasksReducer";
 import { v1 } from "uuid";
 import { TaskPriorities, TaskStatuses } from "../../API/todoListsAPI";
 
