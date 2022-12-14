@@ -1,24 +1,22 @@
-import React, { FC, useCallback, useEffect } from "react";
-
-import { ITaskDomain } from "../../models/models";
+import { AllTasksType, TaskFilterType } from "../../App";
 import { AppStateType, useAppDispatch } from "../../store/store";
-
-import { AddItemForm } from "../AddItemForm/AddItemForm";
-import { EditableElement } from "../EditableElement/EditableElement";
 import { Button, IconButton } from "@mui/material";
-import { Delete } from "@mui/icons-material";
-import { Task } from "../Task/Task";
-
-import { useSelector } from "react-redux";
-import { tasksSelector } from "../../selectors/tasksSelector";
-import { TaskStatuses } from "../../API/todoListsAPI";
+import React, { FC, useCallback, useEffect } from "react";
 import {
   addTaskTC,
   getTasksTC,
   removeTaskTC,
   updateTaskTC,
 } from "../../store/thunks/todolistsThunks";
-import { AllTasksType, TaskFilterType } from "../../AppWithRedux";
+
+import { AddItemForm } from "../AddItemForm/AddItemForm";
+import { Delete } from "@mui/icons-material";
+import { EditableElement } from "../EditableElement/EditableElement";
+import { ITaskDomain } from "../../models/models";
+import { Task } from "../Task/Task";
+import { TaskStatuses } from "../../API/todoListsAPI";
+import { tasksSelector } from "../../selectors/tasksSelector";
+import { useSelector } from "react-redux";
 
 // ? Types
 interface TodoListProps {
@@ -94,7 +92,6 @@ export const TodoList: FC<TodoListProps> = React.memo(
     const editTitleName = (title: string) => {
       changeTodoListName(title, id);
     };
-    console.log("rendered todolist");
     // ? Return
     return (
       <div>

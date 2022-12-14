@@ -14,9 +14,10 @@ import {
   SetTasksAT,
   SetTodoListsAT,
 } from "../actionTypes";
-import { AllTasksType } from "../../AppWithRedux";
-import { UpdateTaskAT } from "../actionTypes";
+
+import { AllTasksType } from "../../App";
 import { UPDATE_TASK_TYPE } from "../actionTypes";
+import { UpdateTaskAT } from "../actionTypes";
 
 export type TasksAT =
   | RemoveTodoListAT

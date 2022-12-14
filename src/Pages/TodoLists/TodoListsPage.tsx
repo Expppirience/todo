@@ -1,28 +1,29 @@
-import { ITodoListDomain } from "../../models/models";
-import React, { FC, useCallback, useEffect } from "react";
 import { Grid, Paper, Typography } from "@mui/material";
-import { TodoList } from "../../components/TodoList/TodoList";
+import React, { FC, useCallback, useEffect } from "react";
 import {
   addTodolistTC,
   changeTodolistTitleTC,
   getTodoListsTC,
   removeTodolistTC,
 } from "../../store/thunks/todolistsThunks";
-import { changeTodolistFilterAC } from "../../store/actionCreators";
-import { TaskFilterType } from "../../AppWithRedux";
 import { useAppDispatch, useAppSelector } from "../../store/store";
-import { todoListsSelector } from "../../selectors";
+
 import { AddItemForm } from "../../components/AddItemForm/AddItemForm";
+import { ITodoListDomain } from "../../models/models";
+import { TaskFilterType } from "../../App";
+import { TodoList } from "../../components/TodoList/TodoList";
+import { changeTodolistFilterAC } from "../../store/actionCreators";
+import { todoListsSelector } from "../../selectors";
 
 export interface ITodoListPageProps {}
 
-export const TodoListsPage: FC<ITodoListPageProps> = ({}) => {
+export const TodoListsPage: FC<ITodoListPageProps> = () => {
   const todoLists = useAppSelector<ITodoListDomain[]>(todoListsSelector);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(getTodoListsTC());
-  }, []);
+  }, [dispatch]);
 
   const changeTodoListTitle = useCallback(
     (title: string, todoListId: string) => {

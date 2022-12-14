@@ -1,4 +1,3 @@
-import { Dispatch } from "redux";
 import {
   TaskPriorities,
   TaskStatuses,
@@ -14,17 +13,21 @@ import {
   setTodolistsAC,
   updateTaskAC,
 } from "../actionCreators";
+
+import { AppAC } from "./../reducers/app/actionCreators";
+import { AppAT } from "../reducers/app/types";
 import { AppStateType } from "../store";
+import { Dispatch } from "redux";
 import { TasksAT } from "../reducers/tasksReducer";
 import { TodoListsAT } from "../reducers/todoListsReducer";
 
-export const getTodoListsTC = () => {
-  return (dispatch: Dispatch<TodoListsAT>) => {
-    todoListsAPI.getTodoLists().then(({ data }) => {
-      dispatch(setTodolistsAC(data));
-    });
+export const getTodoListsTC =
+  () => async (dispatch: Dispatch<TodoListsAT | AppAT>) => {
+    dispatch(AppAC.setStatus("loading"));
+    const { data } = await todoListsAPI.getTodoLists();
+    dispatch(setTodolistsAC(data));
+    dispatch(AppAC.setStatus("idle"));
   };
-};
 
 export const getTasksTC = (todoListID: string) => {
   return (dispatch: Dispatch<TasksAT>) => {
@@ -45,14 +48,24 @@ export const removeTaskTC = (todoListID: string, taskID: string) => {
 };
 
 export const addTaskTC = (todoListID: string, title: string) => {
-  return (dispatch: Dispatch<TasksAT>) => {
+  return (dispatch: Dispatch<TasksAT | AppAT>) => {
+    dispatch(AppAC.setStatus("loading"));
     const payload = { title };
-    todoListsAPI.createTask(todoListID, payload).then(({ data }) => {
-      if (data.resultCode === 0) {
-        const task = data.data.item;
-        dispatch(addTaskAC(task));
-      }
-    });
+    todoListsAPI
+      .createTask(todoListID, payload)
+      .then(({ data }) => {
+        if (data.resultCode === 0) {
+          const task = data.data.item;
+          dispatch(addTaskAC(task));
+          dispatch(AppAC.setStatus("succeeded"));
+        } else if (data.messages.length) {
+          dispatch(AppAC.setError(data.messages[0]));
+          dispatch(AppAC.setStatus("failed"));
+        }
+      })
+      .finally(() => {
+        dispatch(AppAC.setStatus("idle"));
+      });
   };
 };
 
@@ -87,12 +100,14 @@ export const removeTodolistTC = (todoListID: string) => {
 };
 
 export const addTodolistTC = (title: string) => {
-  return (dispatch: Dispatch<TodoListsAT>) => {
+  return (dispatch: Dispatch<TodoListsAT | AppAT>) => {
+    dispatch(AppAC.setStatus("loading"));
     const payload = { title };
     todoListsAPI.createTodoList(payload).then(({ data }) => {
       if (data.resultCode === 0) {
         const todoList = data.data.item;
         dispatch(addTodolistAC(todoList));
+        dispatch(AppAC.setStatus("succeeded"));
       }
     });
   };

@@ -1,16 +1,22 @@
-import React from "react";
 import "./App.css";
-import { ITaskDomain } from "./models/models";
+
 import {
   AppBar,
   Button,
   Container,
   IconButton,
+  LinearProgress,
   Toolbar,
   Typography,
 } from "@mui/material";
+
+import { ErrorNotification } from "./components/EditableElement/ErrorNotification/ErrorNotification";
+import { ITaskDomain } from "./models/models";
 import { Menu } from "@mui/icons-material";
+import React from "react";
 import { TodoListsPage } from "./Pages/TodoLists/TodoListsPage";
+import { appStateSelector } from "./selectors/appSelectors";
+import { useAppSelector } from "./store/store";
 
 // Types
 
@@ -29,10 +35,13 @@ export interface AllTasksType {
 // ? Data
 
 // Component
-function AppWithRedux() {
+function App() {
+  const appState = useAppSelector(appStateSelector);
+  console.log(appState.status);
   // ? Return
   return (
     <div className="App">
+      <ErrorNotification />
       <AppBar position={"static"}>
         <Toolbar>
           <IconButton edge={"start"} color="inherit" aria-label={"menu"}>
@@ -42,6 +51,7 @@ function AppWithRedux() {
           <Button color="inherit">Login</Button>
         </Toolbar>
       </AppBar>
+      {appState.status === "loading" ? <LinearProgress /> : ""}
       <Container fixed>
         <TodoListsPage />
       </Container>
@@ -49,4 +59,4 @@ function AppWithRedux() {
   );
 }
 
-export default AppWithRedux;
+export default App;

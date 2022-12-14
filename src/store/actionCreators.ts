@@ -10,8 +10,9 @@ import {
   UPDATE_TASK_TYPE,
 } from "./actionTypes";
 import { ITask, ITodoList } from "../API/todoListsAPI";
-import { TaskFilterType } from "../AppWithRedux";
+
 import { IUpdateDomainTask } from "./thunks/todolistsThunks";
+import { TaskFilterType } from "../App";
 
 // * TodoLists
 

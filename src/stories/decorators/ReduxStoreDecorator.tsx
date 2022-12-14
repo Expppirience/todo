@@ -1,25 +1,42 @@
-import { ComponentStory } from "@storybook/react";
-import AppWithRedux from "../../AppWithRedux";
-import { Provider } from "react-redux";
-import { AppStateType } from "../../store/store";
-import { combineReducers, createStore } from "redux";
-import { todoListsReducer } from "../../store/reducers/todoListsReducer";
-import { tasksReducer } from "../../store/reducers/tasksReducer";
-import { v1 } from "uuid";
 import { TaskPriorities, TaskStatuses } from "../../API/todoListsAPI";
+import { combineReducers, createStore } from "redux";
+
+import App from "../../App";
+import { AppStateType } from "../../store/store";
+import { ComponentStory } from "@storybook/react";
+import { Provider } from "react-redux";
+import { appReducer } from "./../../store/reducers/app/appReducer";
+import { tasksReducer } from "../../store/reducers/tasksReducer";
+import { todoListsReducer } from "../../store/reducers/todoListsReducer";
+import { v1 } from "uuid";
 
 const rootReducer = combineReducers({
   tasks: tasksReducer,
   todoLists: todoListsReducer,
+  app: appReducer,
 });
 
 const initialGlobalState: AppStateType = {
   todoLists: [
-    { id: "1", title: "placeholder 1", filter: "all", addedDate: "", order: 1 },
-    { id: "2", title: "placeholder 2", filter: "all", addedDate: "", order: 2 },
+    {
+      id: "1",
+      title: "placeholder 1",
+      filter: "all",
+      addedDate: "",
+      order: 1,
+      entityStatus: "idle",
+    },
+    {
+      id: "2",
+      title: "placeholder 2",
+      filter: "all",
+      addedDate: "",
+      order: 2,
+      entityStatus: "idle",
+    },
   ],
   tasks: {
-    ["1"]: [
+    "1": [
       {
         id: v1(),
         title: "placeholder",
@@ -57,7 +74,7 @@ const initialGlobalState: AppStateType = {
         deadline: "",
       },
     ],
-    ["2"]: [
+    "2": [
       {
         id: v1(),
         title: "placeholder",
@@ -96,13 +113,16 @@ const initialGlobalState: AppStateType = {
       },
     ],
   },
+  app: {
+    error: null,
+    status: "idle",
+  },
 };
 const storyBookStore = createStore(
   rootReducer,
   initialGlobalState as AppStateType
 );
 
-type StoryType = ComponentStory<typeof AppWithRedux>;
 export const ReduxStoreDecorator = (story: any) => {
   return <Provider store={storyBookStore}>{story()}</Provider>;
 };

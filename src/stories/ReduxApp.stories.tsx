@@ -1,13 +1,11 @@
-import React from 'react'
-import AppWithRedux from "../AppWithRedux";
-import {ReduxStoreDecorator} from "./decorators/ReduxStoreDecorator";
-
+import App from "../App";
+import React from "react";
+import { ReduxStoreDecorator } from "./decorators/ReduxStoreDecorator";
 
 export default {
-   title: "App with redux",
-   component: AppWithRedux,
-   decorators: [ReduxStoreDecorator]
-}
+  title: "App with redux",
+  component: App,
+  decorators: [ReduxStoreDecorator],
+};
 
-export const DefaultCase = () =>
-      <AppWithRedux/>
+export const DefaultCase = () => <App />;

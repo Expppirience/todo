@@ -1,4 +1,3 @@
-import { ITodoListDomain } from "../../models/models";
 // Types
 import {
   ADD_TODOLIST_TYPE,
@@ -12,6 +11,8 @@ import {
   SET_TODOLIST_TYPE,
   SetTodoListsAT,
 } from "../actionTypes";
+
+import { ITodoListDomain } from "../../models/models";
 
 export type TodoListsAT =
   | RemoveTodoListAT
@@ -32,7 +33,10 @@ export const todoListsReducer = (
     case REMOVE_TODOLIST_TYPE:
       return state.filter((todoList) => todoList.id !== action.data.todoListId);
     case ADD_TODOLIST_TYPE:
-      return [{ ...action.data.todolist, filter: "all" }, ...state];
+      return [
+        { ...action.data.todolist, filter: "all", entityStatus: "idle" },
+        ...state,
+      ];
     case CHANGE_TODOLIST_TITLE_TYPE:
       return state.map((tl) =>
         tl.id === action.data.id
@@ -46,7 +50,11 @@ export const todoListsReducer = (
           : { ...tl }
       );
     case SET_TODOLIST_TYPE:
-      return action.data.todoLists.map((tl) => ({ ...tl, filter: "all" }));
+      return action.data.todoLists.map((tl) => ({
+        ...tl,
+        filter: "all",
+        entityStatus: "idle",
+      }));
     default:
       return state;
   }

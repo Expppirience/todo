@@ -1,12 +1,12 @@
-import { v1 } from "uuid";
-
-import { todoListsReducer } from "./todoListsReducer";
 import {
   addTodolistAC,
   changeTodolistTitleAC,
   removeTodolistAC,
 } from "../actionCreators";
+
 import { ITodoListDomain } from "../../models/models";
+import { todoListsReducer } from "./todoListsReducer";
+import { v1 } from "uuid";
 
 test("correct todolist should be removed", () => {
   const todoListId1 = v1();
@@ -19,6 +19,7 @@ test("correct todolist should be removed", () => {
       addedDate: "",
       order: 0,
       filter: "all",
+      entityStatus: "idle",
     },
     {
       id: todoListId2,
@@ -26,6 +27,7 @@ test("correct todolist should be removed", () => {
       addedDate: "",
       order: 1,
       filter: "all",
+      entityStatus: "idle",
     },
   ];
   const finalState = todoListsReducer(
@@ -48,6 +50,7 @@ test("correct todolist should be added", () => {
       addedDate: "",
       order: 0,
       filter: "all",
+      entityStatus: "idle",
     },
     {
       id: todoListId2,
@@ -55,6 +58,7 @@ test("correct todolist should be added", () => {
       addedDate: "",
       order: 1,
       filter: "all",
+      entityStatus: "idle",
     },
   ];
   const newTodolist = {
@@ -82,6 +86,7 @@ test("correct todolist should change its own name", () => {
       addedDate: "",
       order: 0,
       filter: "all",
+      entityStatus: "idle",
     },
     {
       id: todoListId2,
@@ -89,6 +94,7 @@ test("correct todolist should change its own name", () => {
       addedDate: "",
       order: 1,
       filter: "all",
+      entityStatus: "idle",
     },
   ];
 

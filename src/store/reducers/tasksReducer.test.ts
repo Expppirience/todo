@@ -1,4 +1,4 @@
-import { tasksReducer } from "./tasksReducer";
+import { TaskPriorities, TaskStatuses } from "../../API/todoListsAPI";
 import {
   addTaskAC,
   removeTaskAC,
@@ -6,9 +6,10 @@ import {
   setTasksAC,
   updateTaskAC,
 } from "../actionCreators";
-import { TaskPriorities, TaskStatuses } from "../../API/todoListsAPI";
-import { AllTasksType } from "../../AppWithRedux";
+
+import { AllTasksType } from "../../App";
 import { ITaskDomain } from "../../models/models";
+import { tasksReducer } from "./tasksReducer";
 
 const initialState: AllTasksType = {
   first: [
