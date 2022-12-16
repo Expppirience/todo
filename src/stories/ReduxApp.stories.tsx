@@ -8,4 +8,4 @@ export default {
   decorators: [ReduxStoreDecorator],
 };
 
-export const DefaultCase = () => <App />;
+export const DefaultCase = () => <App demo={true} />;

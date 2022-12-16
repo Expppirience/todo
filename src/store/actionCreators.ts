@@ -6,21 +6,36 @@ import {
   REMOVE_TASK_TYPE,
   REMOVE_TODOLIST_TYPE,
   SET_TASKS_TYPE,
+  SET_TODOLIST_STATUS_TYPE,
   SET_TODOLIST_TYPE,
   UPDATE_TASK_TYPE,
 } from "./actionTypes";
 import { ITask, ITodoList } from "../API/todoListsAPI";
 
+import { AppStatusesType } from "./reducers/app/types";
 import { IUpdateDomainTask } from "./thunks/todolistsThunks";
 import { TaskFilterType } from "../App";
 
 // * TodoLists
 
+export const setTodoListStatusAC = (
+  todoListID: string,
+  status: AppStatusesType
+) => {
+  return {
+    type: SET_TODOLIST_STATUS_TYPE,
+    data: {
+      todoListID,
+      status,
+    },
+  } as const;
+};
+
 export const removeTodolistAC = (todoListId: string) => {
   return {
     type: REMOVE_TODOLIST_TYPE,
     data: {
-      todoListId: todoListId,
+      todoListId,
     },
   } as const;
 };

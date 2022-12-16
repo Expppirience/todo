@@ -4,6 +4,9 @@ import {TodoListsAT, todoListsReducer} from "./reducers/todoListsReducer";
 import {TypedUseSelectorHook, useDispatch, useSelector} from "react-redux";
 import thunkMiddleware, {ThunkAction, ThunkDispatch} from "redux-thunk";
 import { appReducer } from './reducers/app/appReducer';
+import { authReducer } from './reducers/auth/authReducer';
+import { AppAT } from "./reducers/app/types";
+import { AuthAT } from "./reducers/auth/types";
 
 // declare global {
 //   interface Window {
@@ -14,12 +17,13 @@ import { appReducer } from './reducers/app/appReducer';
 
 export type AppStoreType = typeof store;
 export type AppStateType = ReturnType<typeof rootReducer>;
-export type AppActionTypes = TodoListsAT | TasksAT;
+export type AppActionTypes = TodoListsAT | TasksAT | AppAT | AuthAT
 
 const rootReducer = combineReducers({
    tasks: tasksReducer,
    todoLists: todoListsReducer,
    app: appReducer,
+   auth: authReducer,
 });
 
 export const store = createStore(rootReducer, applyMiddleware(thunkMiddleware));

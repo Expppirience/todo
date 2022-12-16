@@ -3,6 +3,7 @@ import {
   AppStatusesType,
   ISetAppErrorAC,
   ISetAppStatusAC,
+  ISetInitAC,
 } from "./types";
 
 export const AppAC = {
@@ -19,6 +20,14 @@ export const AppAC = {
       type: AppACEnum.SET_STATUS,
       data: {
         status,
+      },
+    };
+  },
+  setInit: (init: boolean): ISetInitAC => {
+    return {
+      type: AppACEnum.SET_INIT,
+      data: {
+        init,
       },
     };
   },

@@ -15,15 +15,17 @@ import { TodoList } from "../../components/TodoList/TodoList";
 import { changeTodolistFilterAC } from "../../store/actionCreators";
 import { todoListsSelector } from "../../selectors";
 
-export interface ITodoListPageProps {}
+export interface ITodoListPageProps {
+  demo?: boolean;
+}
 
-export const TodoListsPage: FC<ITodoListPageProps> = () => {
+export const TodoListsPage: FC<ITodoListPageProps> = ({ demo = false }) => {
   const todoLists = useAppSelector<ITodoListDomain[]>(todoListsSelector);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(getTodoListsTC());
-  }, [dispatch]);
+    if (!demo) dispatch(getTodoListsTC());
+  }, [demo, dispatch]);
 
   const changeTodoListTitle = useCallback(
     (title: string, todoListId: string) => {
@@ -65,11 +67,10 @@ export const TodoListsPage: FC<ITodoListPageProps> = () => {
               <Grid item key={todoList.id}>
                 <Paper style={{ padding: "10px" }}>
                   <TodoList
-                    id={todoList.id}
-                    title={todoList.title}
+                    todolist={todoList}
                     changeFilter={changeFilter}
-                    filter={todoList.filter}
                     removeTodoList={removeTodoList}
+                    demo={demo}
                     changeTodoListName={changeTodoListTitle}
                   />
                 </Paper>

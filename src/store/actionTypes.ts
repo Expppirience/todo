@@ -6,6 +6,7 @@ import {
   removeTaskAC,
   removeTodolistAC,
   setTasksAC,
+  setTodoListStatusAC,
   setTodolistsAC,
   updateTaskAC,
 } from "./actionCreators";
@@ -18,6 +19,7 @@ export const CHANGE_TODOLIST_TITLE_TYPE = "CHANGE_TODOLIST_TITLE";
 export const CHANGE_TODOLIST_FILTER_TYPE = "CHANGE_TODOLIST_FILTER";
 export const SET_TODOLIST_TYPE = "SET_TODOLISTS";
 export const SET_TASKS_TYPE = "SET_TASKS";
+export const SET_TODOLIST_STATUS_TYPE = "SET_TODOLIST_STATUS";
 
 export type SetTasksAT = ReturnType<typeof setTasksAC>;
 export type SetTodoListsAT = ReturnType<typeof setTodolistsAC>;
@@ -25,6 +27,7 @@ export type RemoveTodoListAT = ReturnType<typeof removeTodolistAC>;
 export type AddTodolistAT = ReturnType<typeof addTodolistAC>;
 export type ChangeTodolistTitleAT = ReturnType<typeof changeTodolistTitleAC>;
 export type ChangeTodoListFilterAT = ReturnType<typeof changeTodolistFilterAC>;
+export type SetTodoListStatusAT = ReturnType<typeof setTodoListStatusAC>;
 
 // *  Tasks
 

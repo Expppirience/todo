@@ -5,6 +5,7 @@ import {
 } from "../actionCreators";
 
 import { ITodoListDomain } from "../../models/models";
+import { setTodoListStatusAC } from "./../actionCreators";
 import { todoListsReducer } from "./todoListsReducer";
 import { v1 } from "uuid";
 
@@ -105,4 +106,37 @@ test("correct todolist should change its own name", () => {
 
   expect(finalState[0].title).toBe("first");
   expect(finalState[1].title).toBe(title);
+});
+
+test("entity status of todolist should be changed", () => {
+  const todoListId1 = v1();
+  const todoListId2 = v1();
+
+  const status = "loading";
+  const initialState: ITodoListDomain[] = [
+    {
+      id: todoListId1,
+      title: "first",
+      addedDate: "",
+      order: 0,
+      filter: "all",
+      entityStatus: "idle",
+    },
+    {
+      id: todoListId2,
+      title: "second",
+      addedDate: "",
+      order: 1,
+      filter: "all",
+      entityStatus: "idle",
+    },
+  ];
+
+  const finalState = todoListsReducer(
+    initialState,
+    setTodoListStatusAC(todoListId2, status)
+  );
+
+  expect(finalState[0].entityStatus).toBe("idle");
+  expect(finalState[1].entityStatus).toBe(status);
 });

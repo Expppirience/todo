@@ -1,12 +1,11 @@
 import { TaskPriorities, TaskStatuses } from "../../API/todoListsAPI";
-import { combineReducers, createStore } from "redux";
+import { applyMiddleware, combineReducers, createStore } from "redux";
 
-import App from "../../App";
 import { AppStateType } from "../../store/store";
-import { ComponentStory } from "@storybook/react";
 import { Provider } from "react-redux";
 import { appReducer } from "./../../store/reducers/app/appReducer";
 import { tasksReducer } from "../../store/reducers/tasksReducer";
+import thunk from "redux-thunk";
 import { todoListsReducer } from "../../store/reducers/todoListsReducer";
 import { v1 } from "uuid";
 
@@ -116,11 +115,16 @@ const initialGlobalState: AppStateType = {
   app: {
     error: null,
     status: "idle",
+    init: false,
+  },
+  auth: {
+    isAuth: false,
   },
 };
 const storyBookStore = createStore(
   rootReducer,
-  initialGlobalState as AppStateType
+  initialGlobalState as AppStateType,
+  applyMiddleware(thunk)
 );
 
 export const ReduxStoreDecorator = (story: any) => {

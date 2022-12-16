@@ -9,6 +9,7 @@ beforeEach(() => {
   startState = {
     error: null,
     status: defaultStatus,
+    init: false,
   };
 });
 

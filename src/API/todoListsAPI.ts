@@ -116,7 +116,7 @@ export interface ITask {
   addedDate: string;
 }
 
-interface IResponse<D = {}> {
+export interface IResponse<D = {}> {
   resultCode: number;
   messages: string[];
   data: D;

@@ -1,8 +1,8 @@
-import React from "react";
-import { TodoList } from "../components/TodoList/TodoList";
 import { ComponentStory } from "@storybook/react";
-import { action } from "@storybook/addon-actions";
+import React from "react";
 import { ReduxStoreDecorator } from "./decorators/ReduxStoreDecorator";
+import { TodoList } from "../components/TodoList/TodoList";
+import { action } from "@storybook/addon-actions";
 
 export default {
   title: "todoList",
@@ -15,9 +15,14 @@ const Template: ComponentStory<typeof TodoList> = (args) => (
 );
 export const DefaultCase = Template.bind({});
 DefaultCase.args = {
-  title: "TodoList title placeholder",
-  id: "1",
-  filter: "all",
+  todolist: {
+    title: "title placeholder",
+    id: "1",
+    filter: "all",
+    entityStatus: "idle",
+    order: 0,
+    addedDate: "",
+  },
   changeTodoListName: () => action("changing todoList name"),
   removeTodoList: () => action("removing todoList"),
   changeFilter: () => action("changing filter"),

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+
 import { todoListsAPI } from "../API/todoListsAPI";
 
 export default {
@@ -9,7 +10,6 @@ export const GetTodoLists = () => {
   const [state, setState] = useState<any>(null);
   useEffect(() => {
     todoListsAPI.getTodoLists().then((response) => {
-      console.log("IN GET settings store", response);
       setState(response.data);
     });
   }, []);
@@ -23,7 +23,6 @@ export const CreateTodoList = () => {
   useEffect(() => {
     const payload = { title: "title placeholder" };
     todoListsAPI.createTodoList(payload).then((response) => {
-      console.log("IN POST settings store", response);
       setState(response.data);
     });
   }, []);
@@ -36,7 +35,6 @@ export const DeleteTodoList = () => {
   const todoListID = "77e060b6-b0aa-4374-b65c-0e1e9c09dc78";
   useEffect(() => {
     todoListsAPI.deleteTodoList(todoListID).then((response) => {
-      console.log("IN DELETE settings store", response);
       setState(response.data);
     });
   }, []);
@@ -48,7 +46,6 @@ export const UpdateTodoList = () => {
   useEffect(() => {
     const payload = { title: "AGKJHGWHJKNWGABKJNLWGAKJLNB" };
     todoListsAPI.updateTodoList("FWAFAWFAWFAW", payload).then((response) => {
-      console.log("IN PUT settings store", response);
       setState(response.data);
     });
   }, []);
@@ -85,7 +82,6 @@ export const DeleteTask = () => {
 
   useEffect(() => {
     todoListsAPI.deleteTask(todoListID, taskID).then(({ data }) => {
-      console.log("IN DELETE TASKS", data);
       setState(data);
     });
   }, []);
@@ -145,7 +141,6 @@ export const UpdateTask = () => {
       title: taskTitle,
     };
     todoListsAPI.updateTask(todoListId, taskId, payload).then(({ data }) => {
-      console.log("IN UPDATE TASKS", data);
       setState(data);
     });
   };
