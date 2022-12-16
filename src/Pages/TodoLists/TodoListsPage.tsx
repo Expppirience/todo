@@ -9,11 +9,14 @@ import {
 import { useAppDispatch, useAppSelector } from "../../store/store";
 
 import { AddItemForm } from "../../components/AddItemForm/AddItemForm";
+import { IAuthState } from "./../../store/reducers/auth/types";
 import { ITodoListDomain } from "../../models/models";
 import { TaskFilterType } from "../../App";
 import { TodoList } from "../../components/TodoList/TodoList";
+import { authSelector } from "./../../selectors/authSelectors";
 import { changeTodolistFilterAC } from "../../store/actionCreators";
 import { todoListsSelector } from "../../selectors";
+import { useNavigate } from "react-router-dom";
 
 export interface ITodoListPageProps {
   demo?: boolean;
@@ -21,7 +24,13 @@ export interface ITodoListPageProps {
 
 export const TodoListsPage: FC<ITodoListPageProps> = ({ demo = false }) => {
   const todoLists = useAppSelector<ITodoListDomain[]>(todoListsSelector);
+  const authState = useAppSelector<IAuthState>(authSelector);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!authState.isAuth) navigate("/login");
+  }, [navigate, authState.isAuth]);
 
   useEffect(() => {
     if (!demo) dispatch(getTodoListsTC());

@@ -1,21 +1,13 @@
 import "./App.css";
 
-import {
-  AppBar,
-  Button,
-  CircularProgress,
-  IconButton,
-  LinearProgress,
-  Toolbar,
-  Typography,
-} from "@mui/material";
 import React, { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "./store/store";
 
 import { AppRouter } from "./components/AppRouter";
+import { CircularProgress } from "@mui/material";
 import { ErrorNotification } from "./components/EditableElement/ErrorNotification/ErrorNotification";
+import { Header } from "./components/Header/Header";
 import { ITaskDomain } from "./models/models";
-import { Menu } from "@mui/icons-material";
 import { appStateSelector } from "./selectors/appSelectors";
 import { initAppTC } from "./store/thunks/appThunks";
 
@@ -64,18 +56,9 @@ function App({ demo = false }: IAppProps) {
   // ? Return
   return (
     <div className="App">
-      <ErrorNotification />
-      <AppBar position={"static"}>
-        <Toolbar>
-          <IconButton edge={"start"} color="inherit" aria-label={"menu"}>
-            <Menu />
-          </IconButton>
-          <Typography variant="h6">News</Typography>
-          <Button color="inherit">Login</Button>
-        </Toolbar>
-      </AppBar>
-      {appState.status === "loading" ? <LinearProgress /> : ""}
+      <Header />
       <AppRouter />
+      <ErrorNotification />
     </div>
   );
 }

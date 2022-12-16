@@ -9,7 +9,6 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { Navigate, useNavigate } from "react-router-dom";
 import React, { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "./../../store/store";
 
@@ -17,6 +16,7 @@ import { Formik } from "formik";
 import { IAuthState } from "./../../store/reducers/auth/types";
 import { authSelector } from "./../../selectors/authSelectors";
 import { loginRequestTC } from "./../../store/thunks/authThunks";
+import { useNavigate } from "react-router-dom";
 
 export const Login = () => {
   const dispatch = useAppDispatch();
@@ -24,12 +24,12 @@ export const Login = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (authState) {
+    if (authState.isAuth) {
       return navigate("/");
     }
-  }, [navigate, authState]);
+  }, [navigate, authState.isAuth]);
 
-  // if (authState) {
+  // if (authState.isAuth) {
   //   return <Navigate to="/" replace />;
   // }
 
@@ -47,7 +47,7 @@ export const Login = () => {
           });
         }}
       >
-        {({ errors, values, handleSubmit, isSubmitting, getFieldProps }) => (
+        {({ errors, values, handleSubmit, getFieldProps }) => (
           <Grid container justifyContent="center">
             <Grid item xs={4}>
               <form onSubmit={handleSubmit}>

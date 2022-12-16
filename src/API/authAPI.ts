@@ -12,12 +12,17 @@ export const sendLoginRequest = (
   );
 };
 
+export const sendLogoutRequest = () => {
+  return baseRequests.delete<IResponse<{ userId?: number }>>("/auth/login");
+};
+
 export const authMeRequest = () => {
   return baseRequests.get<IResponse<ILoginData>>("/auth/me");
 };
 
 export const authAPI = {
   sendLoginRequest,
+  sendLogoutRequest,
   authMeRequest,
 };
 
