@@ -1,5 +1,4 @@
 import {
-  Button,
   Checkbox,
   FormControl,
   FormControlLabel,
@@ -10,13 +9,13 @@ import {
   Typography,
 } from "@mui/material";
 import React, { useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "./../../store/store";
 
 import { Formik } from "formik";
 import { IAuthState } from "./../../store/reducers/auth/types";
 import { authSelector } from "./../../selectors/authSelectors";
 import { loginRequestTC } from "./../../store/thunks/authThunks";
 import { useNavigate } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../../hooks";
 
 export const Login = () => {
   const dispatch = useAppDispatch();

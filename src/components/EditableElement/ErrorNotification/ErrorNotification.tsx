@@ -4,8 +4,7 @@ import { AppAC } from "./../../../store/reducers/app/actionCreators";
 import { IAppState } from "../../../store/reducers/app/types";
 import React from "react";
 import { appStateSelector } from "../../../selectors/appSelectors";
-import { useAppDispatch } from "./../../../store/store";
-import { useAppSelector } from "../../../store/store";
+import { useAppDispatch, useAppSelector } from "../../../hooks";
 
 export const ErrorNotification = () => {
   const appState = useAppSelector<IAppState>(appStateSelector);

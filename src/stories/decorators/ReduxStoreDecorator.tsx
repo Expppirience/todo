@@ -4,9 +4,9 @@ import { applyMiddleware, combineReducers, createStore } from "redux";
 import { AppStateType } from "../../store/store";
 import { Provider } from "react-redux";
 import { appReducer } from "./../../store/reducers/app/appReducer";
-import { tasksReducer } from "../../store/reducers/tasksReducer";
+import { tasksReducer } from "../../store/reducers/tasks/tasksReducer";
 import thunk from "redux-thunk";
-import { todoListsReducer } from "../../store/reducers/todoListsReducer";
+import { todoListsReducer } from "../../store/reducers/todolists/todoListsReducer";
 import { v1 } from "uuid";
 
 const rootReducer = combineReducers({

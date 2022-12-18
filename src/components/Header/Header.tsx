@@ -7,20 +7,21 @@ import {
   Typography,
 } from "@mui/material";
 import React, { useCallback } from "react";
+import { useAppDispatch, useAppSelector } from "../../hooks";
 
 import { IAppState } from "../../store/reducers/app/types";
+import { IAuthState } from "../../store/reducers/auth/types";
 import { Menu } from "@mui/icons-material";
 import { appStateSelector } from "./../../selectors/appSelectors";
+import { authSelector } from "../../selectors/authSelectors";
 import { logoutRequestTC } from "../../store/thunks/authThunks";
-import { useAppDispatch } from "./../../store/store";
-import { useAppSelector } from "../../store/store";
 
 export const Header = () => {
   const appState = useAppSelector<IAppState>(appStateSelector);
+  const authState = useAppSelector<IAuthState>(authSelector);
   const dispatch = useAppDispatch();
 
   const logoutHandler = useCallback(() => {
-    console.log("in logout handler");
     dispatch(logoutRequestTC());
   }, [dispatch]);
 
@@ -33,9 +34,11 @@ export const Header = () => {
           </IconButton>
 
           <Typography variant="h6">News</Typography>
-          <Button color="inherit" onClick={logoutHandler}>
-            Log out
-          </Button>
+          {authState.isAuth && (
+            <Button color="inherit" onClick={logoutHandler}>
+              Log out
+            </Button>
+          )}
         </Toolbar>
       </AppBar>
       {appState.status === "loading" ? <LinearProgress /> : ""}

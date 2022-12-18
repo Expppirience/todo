@@ -1,13 +1,12 @@
 import "./App.css";
 
 import React, { useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "./store/store";
+import { useAppDispatch, useAppSelector } from "./hooks";
 
 import { AppRouter } from "./components/AppRouter";
 import { CircularProgress } from "@mui/material";
 import { ErrorNotification } from "./components/EditableElement/ErrorNotification/ErrorNotification";
 import { Header } from "./components/Header/Header";
-import { ITaskDomain } from "./models/models";
 import { appStateSelector } from "./selectors/appSelectors";
 import { initAppTC } from "./store/thunks/appThunks";
 
@@ -21,10 +20,6 @@ export interface TodoListsType {
 
 export type TaskFilterType = "all" | "active" | "completed";
 
-export interface AllTasksType {
-  [key: string]: ITaskDomain[];
-}
-
 // ? Data
 
 export interface IAppProps {
@@ -32,7 +27,7 @@ export interface IAppProps {
 }
 
 // Component
-function App({ demo = false }: IAppProps) {
+const App = React.memo(({ demo = false }: IAppProps) => {
   const appState = useAppSelector(appStateSelector);
   const dispatch = useAppDispatch();
 
@@ -61,6 +56,6 @@ function App({ demo = false }: IAppProps) {
       <ErrorNotification />
     </div>
   );
-}
+});
 
 export default App;

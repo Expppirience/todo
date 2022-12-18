@@ -1,11 +1,11 @@
 import { AppAC } from "./../reducers/app/actionCreators";
 import { AppAT } from "../reducers/app/types";
-import { AppThunk } from "../store";
 import { AuthAC } from "./../reducers/auth/actionCreators";
 import { AuthAT } from "../reducers/auth/types";
 import { Dispatch } from "redux";
 import { authAPI } from "../../API/authAPI";
 import { handleFailedRequest } from "./../../utils/errorHandlers";
+import { AppThunk } from "../types";
 
 const defaultErrorMessage = "Something went wrong";
 

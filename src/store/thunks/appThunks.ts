@@ -1,5 +1,5 @@
 import { AppAC } from "./../reducers/app/actionCreators";
-import { AppThunk } from "../store";
+import { AppThunk } from "../types";
 import { AuthAC } from "./../reducers/auth/actionCreators";
 import { authAPI } from "./../../API/authAPI";
 import { handleFailedRequest } from "./../../utils/errorHandlers";
@@ -16,7 +16,6 @@ export const initAppTC = (): AppThunk => {
         handleFailedRequest(dispatch, data.messages[0]);
       })
       .catch((e) => {
-        console.log("in error");
         handleFailedRequest(dispatch, "Something went wrong");
       })
       .finally(() => {

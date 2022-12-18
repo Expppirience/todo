@@ -1,7 +1,8 @@
-import React, { FC } from "react";
 import { Checkbox, IconButton } from "@mui/material";
-import { EditableElement } from "../EditableElement/EditableElement";
+import React, { FC, useCallback } from "react";
+
 import { Delete } from "@mui/icons-material";
+import { EditableElement } from "../EditableElement/EditableElement";
 import { ITaskDomain } from "../../models/models";
 import { TaskStatuses } from "../../API/todoListsAPI";
 
@@ -15,16 +16,19 @@ export interface TaskPropsType {
 
 export const Task: FC<TaskPropsType> = React.memo(
   ({ task, removeTask, changeStatus, todolistId, changeTaskTitle }) => {
-    const editTaskText = (text: string) => {
-      changeTaskTitle(text, task.id, todolistId);
-    };
-    const changeTaskStatus = () => {
+    const editTaskText = useCallback(
+      (text: string) => {
+        changeTaskTitle(text, task.id, todolistId);
+      },
+      [changeTaskTitle, todolistId, task.id]
+    );
+    const changeTaskStatus = useCallback(() => {
       const taskStatus =
         task.status === TaskStatuses.completed
           ? TaskStatuses.inProgress
           : TaskStatuses.completed;
       changeStatus(task.id, todolistId, taskStatus);
-    };
+    }, [changeStatus, task.id, task.status, todolistId]);
     return (
       <li
         key={task.id}
