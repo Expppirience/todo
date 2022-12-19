@@ -1,7 +1,7 @@
-import { AppAC } from "./../reducers/app/actionCreators";
+import { AppAC } from "../reducers/app/appReducer";
 import { AppAT } from "../reducers/app/types";
 import { Dispatch } from "redux";
-import { TodoListsAC } from "../reducers/todolists/actionCreators";
+import { TodoListsAC } from "../reducers/todolists/todoListsReducer";
 import { TodoListsAT } from "../reducers/todolists/types";
 import { handleFailedRequest } from "./../../utils/errorHandlers";
 import { todoListsAPI } from "../../API/todoListsAPI";
@@ -9,16 +9,20 @@ import { todoListsAPI } from "../../API/todoListsAPI";
 export const defaultErrorMessage = "Something went wrong";
 
 export const removeTodolistTC = (todoListID: string) => {
-  return (dispatch: Dispatch<TodoListsAT | AppAT>) => {
-    dispatch(TodoListsAC.setTodoListStatus(todoListID, "loading"));
-    dispatch(AppAC.setStatus("loading"));
+  return (dispatch: Dispatch) => {
+    dispatch(
+      TodoListsAC.setTodoListStatus({ todoListID, status: "succeeded" })
+    );
+    dispatch(AppAC.setStatus({ status: "loading" }));
     todoListsAPI
       .deleteTodoList(todoListID)
       .then(({ data }) => {
         if (data.resultCode === 0) {
-          dispatch(TodoListsAC.removeTodoList(todoListID));
-          dispatch(TodoListsAC.setTodoListStatus(todoListID, "succeeded"));
-          dispatch(AppAC.setStatus("succeeded"));
+          dispatch(TodoListsAC.removeTodoList({ todoListID }));
+          dispatch(
+            TodoListsAC.setTodoListStatus({ status: "succeeded", todoListID })
+          );
+          dispatch(AppAC.setStatus({ status: "succeeded" }));
         } else if (data.messages.length) {
           handleFailedRequest(dispatch, data.messages[0]);
         } else {
@@ -26,22 +30,24 @@ export const removeTodolistTC = (todoListID: string) => {
         }
       })
       .catch(() => {
-        dispatch(TodoListsAC.setTodoListStatus(todoListID, "failed"));
+        dispatch(
+          TodoListsAC.setTodoListStatus({ status: "failed", todoListID })
+        );
         handleFailedRequest(dispatch, defaultErrorMessage);
       });
   };
 };
 export const addTodolistTC = (title: string) => {
-  return (dispatch: Dispatch<TodoListsAT | AppAT>) => {
-    dispatch(AppAC.setStatus("loading"));
+  return (dispatch: Dispatch) => {
+    dispatch(AppAC.setStatus({ status: "loading" }));
     const payload = { title };
     todoListsAPI
       .createTodoList(payload)
       .then(({ data }) => {
         if (data.resultCode === 0) {
           const todoList = data.data.item;
-          dispatch(TodoListsAC.addTodoList(todoList));
-          dispatch(AppAC.setStatus("succeeded"));
+          dispatch(TodoListsAC.addTodoList({ todoList }));
+          dispatch(AppAC.setStatus({ status: "succeeded" }));
         } else if (data.messages.length) {
           handleFailedRequest(dispatch, data.messages[0]);
         } else {
@@ -55,13 +61,13 @@ export const addTodolistTC = (title: string) => {
 };
 
 export const changeTodolistTitleTC = (todoListID: string, title: string) => {
-  return (dispatch: Dispatch<TodoListsAT>) => {
+  return (dispatch: Dispatch) => {
     const payload = { title };
     todoListsAPI
       .updateTodoList(todoListID, payload)
       .then(({ data }) => {
         if (data.resultCode === 0) {
-          dispatch(TodoListsAC.changeTodoListTitle(todoListID, title));
+          dispatch(TodoListsAC.changeTodoListTitle({ todoListID, title }));
         } else if (data.messages.length) {
           handleFailedRequest(dispatch, data.messages[0]);
         } else {
@@ -69,7 +75,9 @@ export const changeTodolistTitleTC = (todoListID: string, title: string) => {
         }
       })
       .catch((e) => {
-        dispatch(TodoListsAC.setTodoListStatus(todoListID, "failed"));
+        dispatch(
+          TodoListsAC.setTodoListStatus({ todoListID, status: "failed" })
+        );
         handleFailedRequest(dispatch, e.message);
       });
   };

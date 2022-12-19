@@ -10,7 +10,6 @@ import React, { useCallback } from "react";
 import { useAppDispatch, useAppSelector } from "../../hooks";
 
 import { IAppState } from "../../store/reducers/app/types";
-import { IAuthState } from "../../store/reducers/auth/types";
 import { Menu } from "@mui/icons-material";
 import { appStateSelector } from "./../../selectors/appSelectors";
 import { authSelector } from "../../selectors/authSelectors";
@@ -18,7 +17,7 @@ import { logoutRequestTC } from "../../store/thunks/authThunks";
 
 export const Header = () => {
   const appState = useAppSelector<IAppState>(appStateSelector);
-  const authState = useAppSelector<IAuthState>(authSelector);
+  const authState = useAppSelector(authSelector);
   const dispatch = useAppDispatch();
 
   const logoutHandler = useCallback(() => {

@@ -12,7 +12,6 @@ import { AppStateType } from "../../store/store";
 import { Delete } from "@mui/icons-material";
 import { EditableElement } from "../EditableElement/EditableElement";
 import { ITaskDomain } from "../../models/models";
-import { ITasksState } from "../../store/reducers/tasks/types";
 import { ITodoListDomain } from "./../../models/models";
 import { Task } from "../Task/Task";
 import { TaskFilterType } from "../../App";

@@ -8,11 +8,10 @@ import {
 import { useAppDispatch, useAppSelector } from "../../hooks";
 
 import { AddItemForm } from "../../components/AddItemForm/AddItemForm";
-import { IAuthState } from "./../../store/reducers/auth/types";
 import { ITodoListDomain } from "../../models/models";
 import { TaskFilterType } from "../../App";
 import { TodoList } from "../../components/TodoList/TodoList";
-import { TodoListsAC } from "../../store/reducers/todolists/actionCreators";
+import { TodoListsAC } from "../../store/reducers/todolists/todoListsReducer";
 import { authSelector } from "./../../selectors/authSelectors";
 import { getTodoListsTC } from "../../store/thunks/taskThunks";
 import { todoListsSelector } from "../../selectors";
@@ -25,9 +24,10 @@ export interface ITodoListPageProps {
 export const TodoListsPage: FC<ITodoListPageProps> = React.memo(
   ({ demo = false }) => {
     const todoLists = useAppSelector<ITodoListDomain[]>(todoListsSelector);
-    const authState = useAppSelector<IAuthState>(authSelector);
+    const authState = useAppSelector(authSelector);
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
+    console.log(todoLists);
 
     useEffect(() => {
       if (!authState.isAuth) navigate("/login");
@@ -51,7 +51,12 @@ export const TodoListsPage: FC<ITodoListPageProps> = React.memo(
     );
     const changeFilter = useCallback(
       (value: TaskFilterType, todoListId: string) => {
-        dispatch(TodoListsAC.changeTodoListFilter(todoListId, value));
+        dispatch(
+          TodoListsAC.changeTodoListFilter({
+            todolistID: todoListId,
+            filter: value,
+          })
+        );
       },
       [dispatch]
     );

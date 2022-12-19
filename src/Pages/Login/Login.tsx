@@ -9,17 +9,16 @@ import {
   Typography,
 } from "@mui/material";
 import React, { useEffect } from "react";
+import { useAppDispatch, useAppSelector } from "../../hooks";
 
 import { Formik } from "formik";
-import { IAuthState } from "./../../store/reducers/auth/types";
 import { authSelector } from "./../../selectors/authSelectors";
 import { loginRequestTC } from "./../../store/thunks/authThunks";
 import { useNavigate } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "../../hooks";
 
 export const Login = () => {
   const dispatch = useAppDispatch();
-  const authState = useAppSelector<IAuthState>(authSelector);
+  const authState = useAppSelector(authSelector);
   const navigate = useNavigate();
 
   useEffect(() => {

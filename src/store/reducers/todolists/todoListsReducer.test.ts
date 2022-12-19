@@ -1,6 +1,6 @@
+import { TodoListsAC, todoListsReducer } from "./todoListsReducer";
+
 import { ITodoListDomain } from "../../../models/models";
-import { TodoListsAC } from "./actionCreators";
-import { todoListsReducer } from "./todoListsReducer";
 import { v1 } from "uuid";
 
 const todoListId1 = v1();
@@ -28,7 +28,7 @@ const initialState: ITodoListDomain[] = [
 test("correct todolist should be removed", () => {
   const finalState = todoListsReducer(
     initialState,
-    TodoListsAC.removeTodoList(todoListId1)
+    TodoListsAC.removeTodoList({ todoListID: todoListId1 })
   );
   expect(finalState.length).toBe(1);
   expect(finalState[0].id).toBe(todoListId2);
@@ -45,7 +45,7 @@ test("correct todolist should be added", () => {
   };
   const finalState = todoListsReducer(
     initialState,
-    TodoListsAC.addTodoList(newTodolist)
+    TodoListsAC.addTodoList({ todoList: newTodolist })
   );
   expect(finalState.length).toBe(3);
   expect(finalState[0].title).toBe(title);
@@ -57,7 +57,7 @@ test("correct todolist should change its own name", () => {
 
   const finalState = todoListsReducer(
     initialState,
-    TodoListsAC.changeTodoListTitle(todoListId2, title)
+    TodoListsAC.changeTodoListTitle({ todoListID: todoListId2, title })
   );
 
   expect(finalState[0].title).toBe("first");
@@ -69,7 +69,7 @@ test("entity status of todolist should be changed", () => {
 
   const finalState = todoListsReducer(
     initialState,
-    TodoListsAC.setTodoListStatus(todoListId2, status)
+    TodoListsAC.setTodoListStatus({ todoListID: todoListId2, status })
   );
 
   expect(finalState[0].entityStatus).toBe("idle");

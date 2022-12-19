@@ -1,18 +1,18 @@
-import { AuthACEnum, AuthAT, IAuthState } from "./types";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
-const intialState: IAuthState = {
+const initialState = {
   isAuth: false,
 };
 
-export const authReducer = (
-  state: IAuthState = intialState,
-  action: AuthAT
-) => {
-  switch (action.type) {
-    case AuthACEnum.SET_IS_AUTH:
-      return { ...state, isAuth: action.data.value };
+export const authSlice = createSlice({
+  name: "auth",
+  initialState,
+  reducers: {
+    setIsAuth(state, action: PayloadAction<{ value: boolean }>) {
+      state.isAuth = action.payload.value;
+    },
+  },
+});
 
-    default:
-      return state;
-  }
-};
+export const authReducer = authSlice.reducer;
+export const AuthAC = authSlice.actions;

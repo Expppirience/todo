@@ -1,10 +1,10 @@
 import { Alert, Snackbar } from "@mui/material";
+import { useAppDispatch, useAppSelector } from "../../../hooks";
 
-import { AppAC } from "./../../../store/reducers/app/actionCreators";
+import { AppAC } from "../../../store/reducers/app/appReducer";
 import { IAppState } from "../../../store/reducers/app/types";
 import React from "react";
 import { appStateSelector } from "../../../selectors/appSelectors";
-import { useAppDispatch, useAppSelector } from "../../../hooks";
 
 export const ErrorNotification = () => {
   const appState = useAppSelector<IAppState>(appStateSelector);
@@ -14,7 +14,7 @@ export const ErrorNotification = () => {
     event?: React.SyntheticEvent | Event,
     reason?: string
   ) => {
-    dispatch(AppAC.setError(null));
+    dispatch(AppAC.setError({ error: null }));
   };
 
   const isOpen = appState.error !== null;
