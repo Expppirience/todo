@@ -63,28 +63,30 @@ export const TodoList: FC<ITodoListProps> = React.memo(
       );
     };
     const removeTask = useCallback(
-      (id: string, todoListId: string): void => {
-        dispatch(removeTaskTC(todoListId, id));
+      (id: string, todoListID: string): void => {
+        dispatch(removeTaskTC({ todoListID, taskID: id }));
       },
       [dispatch]
     );
     const addTask = useCallback(
-      (title: string, todoListId: string): void => {
-        dispatch(addTaskTC(todoListId, title));
+      (title: string, todoListID: string): void => {
+        dispatch(addTaskTC({ todoListID, title }));
       },
       [dispatch]
     );
 
     const changeStatus = useCallback(
-      (id: string, todoListId: string, value: TaskStatuses) => {
-        dispatch(updateTaskTC(todoListId, id, { status: value }));
+      (taskID: string, todoListID: string, value: TaskStatuses) => {
+        dispatch(
+          updateTaskTC({ todoListID, taskID, model: { status: value } })
+        );
       },
       [dispatch]
     );
 
     const changeTaskTitle = useCallback(
-      (title: string, taskId: string, todoListId: string) => {
-        dispatch(updateTaskTC(todoListId, taskId, { title }));
+      (title: string, taskID: string, todoListID: string) => {
+        dispatch(updateTaskTC({ todoListID, taskID, model: { title } }));
       },
       [dispatch]
     );

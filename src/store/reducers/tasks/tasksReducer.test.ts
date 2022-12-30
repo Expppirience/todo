@@ -1,8 +1,10 @@
 import { TaskPriorities, TaskStatuses } from "../../../API/todoListsAPI";
 import { TasksAC, tasksReducer } from "./tasksReducer";
+import { addTaskTC, getTasksTC, removeTaskTC } from "../../thunks/taskThunks";
 
 import { ITaskDomain } from "../../../models/models";
 import { ITasksState } from "./types";
+import { updateTaskTC } from "./../../thunks/taskThunks";
 
 const initialState: ITasksState = {
   first: [
@@ -84,9 +86,10 @@ const initialState: ITasksState = {
 };
 
 test("correct task should be deleted from correct array", () => {
+  const removeConfig = { todoListID: "second", taskID: "2" };
   const finalState = tasksReducer(
     initialState,
-    TasksAC.removeTask({ todoListID: "second", taskID: "2" })
+    removeTaskTC.fulfilled(removeConfig, "requestID", removeConfig)
   );
   expect(finalState["second"].length).toBe(2);
   expect(finalState["first"].length).toBe(3);
@@ -109,7 +112,10 @@ test("task should be added to correct todoList", () => {
   };
   const finalState = tasksReducer(
     initialState,
-    TasksAC.addTask({ task: newTask })
+    addTaskTC.fulfilled({ task: newTask }, "requestId", {
+      todoListID: newTask.todoListId,
+      title: taskName,
+    })
   );
 
   expect(finalState["second"].length).toBe(4);
@@ -120,29 +126,31 @@ test("task should be added to correct todoList", () => {
 });
 
 test("specified task should change it's status", () => {
+  const updateTaskData = {
+    todoListID: "second",
+    taskID: "2",
+    model: { status: TaskStatuses.completed },
+  };
   const finalState = tasksReducer(
     initialState,
-    TasksAC.updateTask({
-      todoListID: "second",
-      taskID: "2",
-      model: { status: TaskStatuses.completed },
-    })
+    updateTaskTC.fulfilled(updateTaskData, "requestID", updateTaskData)
   );
   expect(finalState["second"][1].status).toBe(TaskStatuses.completed);
 });
 
 test("specified task should change it's title", () => {
   const newTitle = "new title for task";
+  const updateTaskData = {
+    todoListID: "second",
+    taskID: "2",
+    model: { title: newTitle },
+  };
   const finalState = tasksReducer(
     initialState,
-    TasksAC.updateTask({
-      todoListID: "second",
-      taskID: "2",
-      model: { title: newTitle },
-    })
+    updateTaskTC.fulfilled(updateTaskData, "requestID", updateTaskData)
   );
   expect(finalState["second"][1].title).toBe(newTitle);
-  expect(finalState["second"][0].title).toBe("Grooming");
+  expect(finalState["second"][0].title).toBe(initialState["second"][0].title);
 });
 
 // test("property with todoListId should be deleted", () => {
@@ -171,7 +179,7 @@ test("task should be added for specified todolist", () => {
   ];
   const finalState = tasksReducer(
     initialState,
-    TasksAC.setTasks({ todoListID: "first", tasks })
+    getTasksTC.fulfilled({ todoListID: "first", tasks }, "requestID", "first")
   );
-  expect(finalState["first"].length).toBe(4);
+  expect(finalState["first"].length).toBe(1);
 });

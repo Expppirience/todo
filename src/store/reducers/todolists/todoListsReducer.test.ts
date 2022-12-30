@@ -1,4 +1,9 @@
 import { TodoListsAC, todoListsReducer } from "./todoListsReducer";
+import {
+  addTodolistTC,
+  changeTodolistTitleTC,
+  removeTodolistTC,
+} from "./../../thunks/todolistsThunks";
 
 import { ITodoListDomain } from "../../../models/models";
 import { v1 } from "uuid";
@@ -26,9 +31,10 @@ const initialState: ITodoListDomain[] = [
 ];
 
 test("correct todolist should be removed", () => {
+  const removeData = { todoListID: todoListId1 };
   const finalState = todoListsReducer(
     initialState,
-    TodoListsAC.removeTodoList({ todoListID: todoListId1 })
+    removeTodolistTC.fulfilled(removeData, "requestId", todoListId1)
   );
   expect(finalState.length).toBe(1);
   expect(finalState[0].id).toBe(todoListId2);
@@ -45,7 +51,11 @@ test("correct todolist should be added", () => {
   };
   const finalState = todoListsReducer(
     initialState,
-    TodoListsAC.addTodoList({ todoList: newTodolist })
+    addTodolistTC.fulfilled(
+      { todoList: newTodolist },
+      "requestId",
+      newTodolist.title
+    )
   );
   expect(finalState.length).toBe(3);
   expect(finalState[0].title).toBe(title);
@@ -55,9 +65,14 @@ test("correct todolist should be added", () => {
 test("correct todolist should change its own name", () => {
   const title = "New todoList";
 
+  const changeTitleConfig = { todoListID: todoListId2, title };
   const finalState = todoListsReducer(
     initialState,
-    TodoListsAC.changeTodoListTitle({ todoListID: todoListId2, title })
+    changeTodolistTitleTC.fulfilled(
+      changeTitleConfig,
+      "requestID",
+      changeTitleConfig
+    )
   );
 
   expect(finalState[0].title).toBe("first");

@@ -8,28 +8,33 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import React, { useEffect } from "react";
+import { Formik, FormikHelpers } from "formik";
 import { useAppDispatch, useAppSelector } from "../../hooks";
 
-import { Formik } from "formik";
+import { Navigate } from "react-router-dom";
 import { authSelector } from "./../../selectors/authSelectors";
 import { loginRequestTC } from "./../../store/thunks/authThunks";
-import { useNavigate } from "react-router-dom";
+
+interface ILoginForm {
+  email: string;
+  password: string;
+  rememberMe: boolean;
+}
 
 export const Login = () => {
   const dispatch = useAppDispatch();
   const authState = useAppSelector(authSelector);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
-  useEffect(() => {
-    if (authState.isAuth) {
-      return navigate("/");
-    }
-  }, [navigate, authState.isAuth]);
+  // useEffect(() => {
+  //   if (authState.isAuth) {
+  //     return navigate("/");
+  //   }
+  // }, [navigate, authState.isAuth]);
 
-  // if (authState.isAuth) {
-  //   return <Navigate to="/" replace />;
-  // }
+  if (authState.isAuth) {
+    return <Navigate to="/" replace />;
+  }
 
   return (
     <>
@@ -39,10 +44,12 @@ export const Login = () => {
           if (!values.email) return { email: "Email is required" };
           if (!values.password) return { email: "password is required" };
         }}
-        onSubmit={({ email, password, rememberMe }, { setSubmitting }) => {
-          dispatch(loginRequestTC(email, password, rememberMe)).then(() => {
-            setSubmitting(false);
-          });
+        onSubmit={async (
+          values: ILoginForm,
+          forkmikHelpers: FormikHelpers<ILoginForm>
+        ) => {
+          const res = await dispatch(loginRequestTC(values));
+          forkmikHelpers.setFieldError("", "");
         }}
       >
         {({ errors, values, handleSubmit, getFieldProps }) => (

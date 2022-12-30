@@ -1,74 +1,67 @@
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import {
+  IUpdateDomainTask,
+  addTaskTC,
+  getTasksTC,
+  getTodoListsTC,
+  removeTaskTC,
+  updateTaskTC,
+} from "./../../thunks/taskThunks";
+import {
+  addTodolistTC,
+  removeTodolistTC,
+} from "./../../thunks/todolistsThunks";
 
-import { ITask } from "../../../API/todoListsAPI";
 import { ITasksState } from "./types";
-import { IUpdateDomainTask } from "./../../thunks/taskThunks";
-import { TodoListsAC } from "../todolists/todoListsReducer";
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState: ITasksState = {};
 
 const tasksSlice = createSlice({
   name: "tasks",
   initialState,
-  reducers: {
-    removeTask(
-      draft,
-      action: PayloadAction<{ taskID: string; todoListID: string }>
-    ) {
-      const tasks = draft[action.payload.todoListID];
-      const index = tasks.findIndex((t) => t.id === action.payload.taskID);
-      if (index > -1) tasks.splice(index, 1);
-    },
-    addTask(draft, action: PayloadAction<{ task: ITask }>) {
-      draft[action.payload.task.todoListId].unshift(action.payload.task);
-    },
-    updateTask(
-      draft,
-      action: PayloadAction<{
-        taskID: string;
-        todoListID: string;
-        model: IUpdateDomainTask;
-      }>
-    ) {
-      const tasks = draft[action.payload.todoListID];
-      const index = tasks.findIndex((t) => t.id === action.payload.taskID);
-      if (index > -1)
-        tasks[index] = { ...tasks[index], ...action.payload.model };
-    },
-    setTasks(
-      draft,
-      action: PayloadAction<{ tasks: ITask[]; todoListID: string }>
-    ) {
-      draft[action.payload.todoListID] = action.payload.tasks;
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(TodoListsAC.addTodoList, (draft, action) => {
-      draft[action.payload.todoList.id] = [];
+    builder.addCase(addTodolistTC.fulfilled, (draft, action) => {
+      if (action.payload) {
+        draft[action.payload.todoList.id] = [];
+      }
     });
-    builder.addCase(TodoListsAC.removeTodoList, (draft, action) => {
-      delete draft[action.payload.todoListID];
+    builder.addCase(removeTodolistTC.fulfilled, (draft, action) => {
+      if (action.payload) {
+        delete draft[action.payload.todoListID];
+      }
     });
-    builder.addCase(TodoListsAC.setTodoLists, (draft, action) => {
+    builder.addCase(getTodoListsTC.fulfilled, (draft, action) => {
       action.payload.todolists.forEach((tl) => {
         draft[tl.id] = [];
       });
     });
+    builder.addCase(getTasksTC.fulfilled, (draft, action) => {
+      if (action.payload) {
+        draft[action.payload.todoListID] = action.payload.tasks;
+      }
+    });
+    builder.addCase(removeTaskTC.fulfilled, (draft, action) => {
+      if (action.payload) {
+        const tasks = draft[action.payload.todoListID];
+        const index = tasks.findIndex((t) => t.id === action.payload?.taskID);
+        if (index > -1) tasks.splice(index, 1);
+      }
+    });
+    builder.addCase(addTaskTC.fulfilled, (draft, action) => {
+      if (action.payload) {
+        draft[action.payload.task.todoListId].unshift(action.payload.task);
+      }
+    });
+    builder.addCase(updateTaskTC.fulfilled, (draft, action) => {
+      if (action.payload) {
+        const tasks = draft[action.payload.todoListID];
+        const index = tasks.findIndex((t) => t.id === action.payload?.taskID);
+        if (index > -1)
+          tasks[index] = { ...tasks[index], ...action.payload.model };
+      }
+    });
   },
-  // extraReducers: {
-  //   [TodoListsAC.addTodoList.type]: (
-  //     draft,
-  //     action: PayloadAction<{ tasks: ITask[]; todoListID: string }>
-  //   ) => {},
-  //   [TodoListsAC.removeTodoList.type]: (
-  //     draft,
-  //     action: PayloadAction<{ tasks: ITask[]; todoListID: string }>
-  //   ) => {},
-  //   [TodoListsAC.setTodoLists.type]: (
-  //     draft,
-  //     action: PayloadAction<{ tasks: ITask[]; todoListID: string }>
-  //   ) => {},
-  // },
 });
 
 export const tasksReducer = tasksSlice.reducer;

@@ -1,6 +1,8 @@
 import { AppStatusesType, IAppState } from "./types";
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
+import { initAppTC } from "./../../thunks/appThunks";
+
 const initialState: IAppState = {
   status: "idle",
   error: null,
@@ -20,6 +22,12 @@ export const appSlice = createSlice({
     setInit(state, action: PayloadAction<{ init: boolean }>) {
       state.init = action.payload.init;
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(initAppTC.fulfilled, (draft, action) => {
+      console.log("in builder");
+      draft.init = true;
+    });
   },
 });
 

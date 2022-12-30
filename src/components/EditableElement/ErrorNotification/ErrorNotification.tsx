@@ -11,8 +11,6 @@ export const ErrorNotification = () => {
   const dispatch = useAppDispatch();
 
   const handleClose = (
-    event?: React.SyntheticEvent | Event,
-    reason?: string
   ) => {
     dispatch(AppAC.setError({ error: null }));
   };

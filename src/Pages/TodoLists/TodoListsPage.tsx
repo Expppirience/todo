@@ -38,8 +38,8 @@ export const TodoListsPage: FC<ITodoListPageProps> = React.memo(
     }, [demo, dispatch]);
 
     const changeTodoListTitle = useCallback(
-      (title: string, todoListId: string) => {
-        dispatch(changeTodolistTitleTC(todoListId, title));
+      (title: string, todoListID: string) => {
+        dispatch(changeTodolistTitleTC({ todoListID, title }));
       },
       [dispatch]
     );
@@ -50,10 +50,10 @@ export const TodoListsPage: FC<ITodoListPageProps> = React.memo(
       [dispatch]
     );
     const changeFilter = useCallback(
-      (value: TaskFilterType, todoListId: string) => {
+      (value: TaskFilterType, todoListID: string) => {
         dispatch(
           TodoListsAC.changeTodoListFilter({
-            todolistID: todoListId,
+            todoListID,
             filter: value,
           })
         );

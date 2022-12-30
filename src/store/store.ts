@@ -6,9 +6,7 @@ import thunkMiddleware from "redux-thunk";
 export type AppStoreType = typeof store;
 export type AppStateType = ReturnType<typeof rootReducer>;
 
-// export const store = createStore(rootReducer, applyMiddleware(thunkMiddleware));
-
-const rootReducer = combineReducers(reducers);
+export const rootReducer = combineReducers(reducers);
 export const store = configureStore({
   reducer: rootReducer,
   middleware: (getDefaultMiddleware) => {
